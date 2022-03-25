@@ -1,0 +1,116 @@
+# ImStyle
+alpha = 1 # float32
+
+windowPadding = [4, 4] # ImVec2
+windowRounding = 3 # float32
+windowBorderSize = 1 # float32
+windowMinSize = [200, 150] # ImVec2
+windowTitleAlign = [0, 0.5] # ImVec2
+windowMenuButtonPosition = 0 # ImGuiDir
+
+childRounding = 3 # float32
+childBorderSize = 1 # float32
+
+popupRounding = 3 # float32
+popupBorderSize = 1 # float32
+
+framePadding = [6, 4] # ImVec2
+frameRounding = 3 # float32
+frameBorderSize = 0 # float32
+
+itemSpacing = [6, 2] # ImVec2
+itemInnerSpacing = [2, 2] # ImVec2
+
+cellPadding = [4, 4] # ImVec2
+
+touchExtraPadding = [2, 2] # ImVec2
+
+indentSpacing = 5 # float32
+
+columnsMinSpacing = 2 # float32
+
+scrollbarSize = 18 # float32
+scrollbarRounding = 2 # float32
+
+grabMinSize = 2 # float32
+grabRounding = 2 # float32
+
+logSliderDeadzone = 2 # float32
+
+tabRounding = 2 # float32
+tabBorderSize = 2 # float32
+tabMinWidthForCloseButton = 2 # float32
+
+colorButtonPosition = 0 # ImGuiDir
+
+buttonTextAlign = [0.5, 0.5] # ImVec2
+
+selectableTextAlign = [0.5, 0.5] # ImVec2
+
+displayWindowPadding = [4, 4] # ImVec2
+displaySafeAreaPadding = [4, 4] # ImVec2
+
+mouseCursorScale = 1 # float32
+
+antiAliasedLines = true # bool
+antiAliasedLinesUseTex = true # bool
+antiAliasedFill = true # bool
+
+curveTessellationTol = 2 # float32
+
+circleSegmentMaxError = 2 # float32
+
+colors=> # array[53, ImVec4]
+  TextDisabled = "#999999" # 1
+  Text = "#000000" # 0
+  WindowBg = "#EFEFEF" # 2
+  ChildBg = "#000000" # 3
+  PopupBg = "#FFFFFF" # 4
+  Border = "#000000" # 5
+  BorderShadow = "#FFFFFF" # 6
+  FrameBg = "#FFFFFF" # 7
+  FrameBgHovered = "#4296F9" # 8
+  FrameBgActive = "#4296F9" # 9
+  TitleBg = "#F4F4F4" # 10
+  TitleBgActive = "#D1D1D1" # 11
+  TitleBgCollapsed = "#FFFFFF" # 12
+  MenuBarBg = "#DBDBDB" # 13
+  ScrollbarBg = "#F9F9F9" # 14
+  ScrollbarGrab = "#AFAFAF" # 15
+  ScrollbarGrabHovered = "#969696" # 16
+  ScrollbarGrabActive = "#7C7C7C" # 17
+  CheckMark = "#4296F9" # 18
+  SliderGrab = "#3D84E0" # 19
+  SliderGrabActive = "#4296F9" # 20
+  Button = "#73D216" # 21
+  ButtonHovered = "#4296F9" # 22
+  ButtonActive = "#0F87F9" # 23
+  Header = "#4296F9" # 24
+  HeaderHovered = "#4296F9" # 25
+  HeaderActive = "#4296F9" # 26
+  Separator = "#6D6D7F" # 27
+  SeparatorHovered = "#1966BF" # 28
+  SeparatorActive = "#1966BF" # 29
+  ResizeGrip = "#FFFFFF" # 30
+  ResizeGripHovered = "#4296F9" # 31
+  ResizeGripActive = "#4296F9" # 32
+  Tab = "#2D5993" # 33
+  TabHovered = "#4296F9" # 34
+  TabActive = "#3268AD" # 35
+  TabUnfocused = "#111A25" # 36
+  TabUnfocusedActive = "#22426C" # 37
+  PlotLines = "#636363" # 38
+  PlotLinesHovered = "#FF6D59" # 39
+  PlotHistogram = "#E5B200" # 40
+  PlotHistogramHovered = "#FF9900" # 41
+  TableHeaderBg = "#303033" # 42
+  TableBorderStrong = "#4F4F59" # 43
+  TableBorderLight = "#3A3A3F" # 44
+  TableRowBg = "#000000" # 45
+  TableRowBgAlt = "#FFFFFF" # 46
+  TextSelectedBg = "#4296F9" # 47
+  DragDropTarget = "#FFFF00" # 48
+  NavHighlight = "#4296F9" # 49
+  NavWindowingHighlight = "#FFFFFF" # 50
+  NavWindowingDimBg = "#CCCCCC" # 51
+  ModalWindowDimBg = "#CCCCCC" # 52
