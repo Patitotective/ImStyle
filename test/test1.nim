@@ -8,68 +8,46 @@ proc getImVec4(color: string): ImVec4 =
   ImVec4(x: color.r, y: color.g, z: color.b, w: color.a)
 
 test "can get style":
-  let style = getStyle("style.niprefs")
+  let style = getIgStyle("style.niprefs")
   assert style == ImGuiStyle(
-    alpha: 1f, 
-    windowPadding: ImVec2(x: 4f, y: 4f), 
-    windowRounding: 3f, 
-    windowBorderSize: 1f, 
-    windowMinSize: ImVec2(x: 200f, y: 150f), 
-    windowTitleAlign: ImVec2(x: 0f, y: 0.5f), 
+    alpha: 1.0, 
+    windowPadding: ImVec2(x: 6.0, y: 3.0), 
+    windowRounding: 0.0, 
+    windowBorderSize: 1.0, 
+    windowMinSize: ImVec2(x: 32.0, y: 32.0), 
+    windowTitleAlign: ImVec2(x: 0.5, y: 0.5), 
     windowMenuButtonPosition: ImGuiDir.Left, 
-
-    childRounding: 3f, 
-    childBorderSize: 1f, 
-
-    popupRounding: 3f, 
-    popupBorderSize: 1f, 
-
-    framePadding: ImVec2(x: 6f, y: 4f), 
-    frameRounding: 3f, 
-    frameBorderSize: 0f, 
-
-    itemSpacing: ImVec2(x: 6f, y: 2f), 
-    itemInnerSpacing: ImVec2(x: 2f, y: 2f), 
-
-    cellPadding: ImVec2(x: 4f, y: 4f), 
-
-    touchExtraPadding: ImVec2(x: 2f, y: 2f), 
-
-    indentSpacing: 5f, 
-
-    columnsMinSpacing: 2f, 
-
-    scrollbarSize: 18f, 
-    scrollbarRounding: 2f, 
-
-    grabMinSize: 2f, 
-    grabRounding: 2f, 
-
-    logSliderDeadzone: 2f, 
-
-    tabRounding: 2f, 
-    tabBorderSize: 2f, 
-    tabMinWidthForCloseButton: 2f, 
-
-    colorButtonPosition: ImGuiDir.Left, 
-
-    buttonTextAlign: ImVec2(x: 0.5f, y: 0.5f), 
-
-    selectableTextAlign: ImVec2(x: 0.5f, y: 0.5f), 
-
-    displayWindowPadding: ImVec2(x: 4f, y: 4f), 
-    displaySafeAreaPadding: ImVec2(x: 4f, y: 4f), 
-
-    mouseCursorScale: 1f, 
-
+    childRounding: 0.0, 
+    childBorderSize: 1.0, 
+    popupRounding: 0.0, 
+    popupBorderSize: 1.0, 
+    framePadding: ImVec2(x: 5.0, y: 1.0), 
+    frameRounding: 3.0, 
+    frameBorderSize: 1.0, 
+    itemSpacing: ImVec2(x: 7.0, y: 1.0), 
+    itemInnerSpacing: ImVec2(x: 1.0, y: 1.0), 
+    cellPadding: ImVec2(x: 4.0, y: 2.0), 
+    touchExtraPadding: ImVec2(x: 0.0, y: 0.0), 
+    indentSpacing: 6.0, 
+    columnsMinSpacing: 6.0, 
+    scrollbarSize: 13.0, 
+    scrollbarRounding: 16.0, 
+    grabMinSize: 20.0, 
+    grabRounding: 2.0, 
+    logSliderDeadzone: 4.0, 
+    tabRounding: 4.0, 
+    tabBorderSize: 1.0, 
+    tabMinWidthForCloseButton: 0.0, 
+    colorButtonPosition: ImGuiDir.Right, 
+    buttonTextAlign: ImVec2(x: 0.5, y: 0.5), 
+    selectableTextAlign: ImVec2(x: 0.0, y: 0.0), 
+    displayWindowPadding: ImVec2(x: 19.0, y: 19.0), 
+    displaySafeAreaPadding: ImVec2(x: 3.0, y: 0.0), 
+    mouseCursorScale: 1.0, 
     antiAliasedLines: true, 
     antiAliasedLinesUseTex: true, 
     antiAliasedFill: true, 
-
-    curveTessellationTol: 2f, 
-
-    # circleSegmentMaxError: 2f, 
-
+    curveTessellationTol: 1.25, 
     colors: [
       "#000000".getImVec4(), # Text
       "#999999".getImVec4(), # TextDisabled

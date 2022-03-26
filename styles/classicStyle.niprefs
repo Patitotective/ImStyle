@@ -1,0 +1,114 @@
+# ImStyle
+alpha=1.0
+
+windowPadding=[6.0, 3.0]
+windowRounding=0.0
+windowBorderSize=1.0
+windowMinSize=[32.0, 32.0]
+windowTitleAlign=[0.5, 0.5]
+windowMenuButtonPosition="left"
+
+childRounding=0.0
+childBorderSize=1.0
+
+popupRounding=0.0
+popupBorderSize=1.0
+
+framePadding=[5.0, 1.0]
+frameRounding=3.0
+frameBorderSize=1.0
+
+itemSpacing=[7.0, 1.0]
+itemInnerSpacing=[1.0, 1.0]
+
+cellPadding=[4.0, 2.0]
+
+touchExtraPadding=[0.0, 0.0]
+
+indentSpacing=6.0
+
+columnsMinSpacing=6.0
+
+scrollbarSize=13.0
+scrollbarRounding=16.0
+
+grabMinSize=20.0
+grabRounding=2.0
+
+logSliderDeadzone=4.0
+
+tabRounding=4.0
+tabBorderSize=1.0
+tabMinWidthForCloseButton=0.0
+
+colorButtonPosition="right"
+
+buttonTextAlign=[0.5, 0.5]
+
+selectableTextAlign=[0.0, 0.0]
+
+displayWindowPadding=[19.0, 19.0]
+displaySafeAreaPadding=[3.0, 0.0]
+
+mouseCursorScale=1.0
+
+antiAliasedLines=true
+antiAliasedLinesUseTex=true
+antiAliasedFill=true
+
+curveTessellationTol=1.25
+
+colors=>
+  Text = "#E5E5E5"        
+  TextDisabled = "#999999"         
+  WindowBg = "#000000"         
+  ChildBg = "#000000"         
+  PopupBg = "#1C1C23"                                                                       
+  Border = "#7F7F7F"
+  BorderShadow = "#000000"
+  FrameBg = "#6D6D6D"
+  FrameBgHovered = "#7777AF"
+  FrameBgActive = "#6B68A3"
+  TitleBg = "#444489"
+  TitleBgActive = "#5151A0"
+  TitleBgCollapsed = "#6666CC"
+  MenuBarBg = "#66668C"
+  ScrollbarBg = "#333F4C"
+  ScrollbarGrab = "#6666CC"
+  ScrollbarGrabHovered = "#6666CC"
+  ScrollbarGrabActive = "#6863CC"
+  CheckMark = "#E5E5E5"
+  SliderGrab = "#FFFFFF"
+  SliderGrabActive = "#6863CC"
+  Button = "#59669B"
+  ButtonHovered = "#667AB5"
+  ButtonActive = "#7589CC"
+  Header = "#6666E5"
+  HeaderHovered = "#7272E5"
+  HeaderActive = "#8787DD"
+  Separator = "#7F7F7F"
+  SeparatorHovered = "#9999B2"
+  SeparatorActive = "#B2B2E5"
+  ResizeGrip = "#FFFFFF"
+  ResizeGripHovered = "#C6D1FF"
+  ResizeGripActive = "#C6D1FF"
+  Tab = "#5555AE"
+  TabHovered = "#7272E5"
+  TabActive = "#6767B9"
+  TabUnfocused = "#484891"
+  TabUnfocusedActive = "#5959A6"
+  PlotLines = "#FFFFFF"
+  PlotLinesHovered = "#E5B200"
+  PlotHistogram = "#E5B200"
+  PlotHistogramHovered = "#FF9900"
+  TableHeaderBg = "#444460"
+  TableBorderStrong = "#4F4F72"
+  TableBorderLight = "#424247"
+  TableRowBg = "#000000"
+  TableRowBgAlt = "#FFFFFF"
+  TextSelectedBg = "#0000FF"
+  DragDropTarget = "#FFFF00"
+  NavHighlight = "#7272E5"
+  NavWindowingHighlight = "#FFFFFF"
+  NavWindowingDimBg = "#CCCCCC"
+  ModalWindowDimBg = "#333333"
