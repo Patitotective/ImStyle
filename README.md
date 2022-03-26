@@ -25,7 +25,7 @@ alpha = 1 # -> 4f
 windowPadding = [4, 4] # -> ImVec2(x: 4f, y: 4f) 
 windowMenuButtonPosition = "left" # Or 0
 colors=>
-	Text = "#000000"
+  Text = "#000000"
 ```
 (Look at [niprefs documentation](https://patitotective.github.io/niprefs) for more about the syntax).  
 (Any key in the style file that is not a field of [`ImGuiStyle`](https://nimgl.dev/docs/imgui.html#ImGuiStyle) will be ignored.)
@@ -40,7 +40,8 @@ setIgStyle("style.niprefs") # Or getIgStyle that returns the ImGuiStyle object i
 With _ImStyle_ it's way more clear and **you don't need to compile your application again each time you change its style**.
 
 ## Example
-Take a look at [example/](https://github.com/Patitotective/ImStyle/tree/main/example).
+- For a working application example look at [example/](https://github.com/Patitotective/ImStyle/tree/main/example).
+- For style examples look at [styles/]((https://github.com/Patitotective/ImStyle/tree/main/styles)).
 
 ## Fields Description
 Fields of [`ImGuiStyle`](https://nimgl.dev/docs/imgui.html#ImGuiStyle):
@@ -98,4 +99,4 @@ Contact me:
 - Tiwtter: [@patitotective](https://twitter.com/patitotective).
 - Email: **cristobalriaga@gmail.com**.
 
-***v.1.0***
+***v0.1.0***
