@@ -39,9 +39,9 @@ setIgStyle("style.niprefs") # Or getIgStyle that returns the ImGuiStyle object i
 ```
 With _ImStyle_ it's way more clear and **you don't need to compile your application again each time you change its style**.
 
-## Example
+## Examples
 - For a working application example look at [example/](https://github.com/Patitotective/ImStyle/tree/main/example).
-- For style examples look at [styles/]((https://github.com/Patitotective/ImStyle/tree/main/styles)).
+- For style examples look at [styles/](https://github.com/Patitotective/ImStyle/tree/main/styles).
 
 ## Fields Description
 Fields of [`ImGuiStyle`](https://nimgl.dev/docs/imgui.html#ImGuiStyle):
@@ -90,7 +90,7 @@ Fields of [`ImGuiStyle`](https://nimgl.dev/docs/imgui.html#ImGuiStyle):
 (Taken from [ocornut/imgui](https://github.com/ocornut/imgui/blob/master/imgui.h#L1837)).
 
 ## About
-- Docs: https://patitotective.github.io/ImStyle.
+- Docs: https://patitotective.github.io/ImStyle (not available yet).
 - GitHub: https://github.com/Patitotective/ImStyle.
 - Discord: https://discord.gg/as85Q4GnR6.
 
