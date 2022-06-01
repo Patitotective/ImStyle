@@ -15,17 +15,17 @@ var style = igGetStyle()
 style.alpha = 1f
 style.windowPadding = ImVec2(x: 4f, y: 4f)
 style.windowMenuButtonPosition = ImGuiDir.Left
-style.colors[ord(Text)] = ImVec4(x: 0f, y: 0f, z: 0f, w: 1f) # RGBA
+style.colors[ord Text] = ImVec4(x: 0f, y: 0f, z: 0f, w: 1f) # RGBA
 ...
 ```
 But with _ImStyle_ you can just create a `style.niprefs`:
 ```nim
 # ImStyle
-alpha = 1 # -> 4f
+alpha = 1 # -> 1f
 windowPadding = [4, 4] # -> ImVec2(x: 4f, y: 4f) 
-windowMenuButtonPosition = "left" # Or 0
+windowMenuButtonPosition = "Left" # Or 0
 colors=>
-  Text = "#000000"
+  Text = "#000000" # or "rgb(0, 0, 0)" or [0, 0, 0]
 ```
 (Look at [niprefs documentation](https://patitotective.github.io/niprefs) for more about the syntax).  
 (Any key in the style file that is not a field of [`ImGuiStyle`](https://nimgl.dev/docs/imgui.html#ImGuiStyle) will be ignored.)
@@ -34,14 +34,16 @@ Then read and set the style like this:
 ```nim
 import imstyle
 ...
-setIgStyle("style.niprefs") # Or getIgStyle that returns the ImGuiStyle object itself
+setIgStyle("style.niprefs")
 ...
 ```
-With _ImStyle_ it's way more clear and **you don't need to compile your application again each time you change its style**.
+With _ImStyle_ it's way more clear and **you don't need to compile your application again each time you change its style**.  
 
-## Examples
-- For a working application example look at [example/](https://github.com/Patitotective/ImStyle/tree/main/example).
-- For style examples look at [styles/](https://github.com/Patitotective/ImStyle/tree/main/styles).
+Read morea the [docs](https://patitotective.github.io/ImStyle).
+
+## Styles
+For style examples look at [styles/](https://github.com/Patitotective/ImStyle/tree/main/styles).  
+(Make a PR if you want to add your own).
 
 ## Fields Description
 Fields of [`ImGuiStyle`](https://nimgl.dev/docs/imgui.html#ImGuiStyle):
@@ -90,7 +92,7 @@ Fields of [`ImGuiStyle`](https://nimgl.dev/docs/imgui.html#ImGuiStyle):
 (Taken from [ocornut/imgui](https://github.com/ocornut/imgui/blob/master/imgui.h#L1837)).
 
 ## About
-- Docs: https://patitotective.github.io/ImStyle (not available yet).
+- Docs: https://patitotective.github.io/ImStyle.
 - GitHub: https://github.com/Patitotective/ImStyle.
 - Discord: https://discord.gg/as85Q4GnR6.
 

@@ -1,0 +1,11 @@
+newPNode	imstyle.html#newPNode,ImVec4	imstyle: newPNode(vec: ImVec4): PrefsNode	
+newPNode	imstyle.html#newPNode,ImVec2	imstyle: newPNode(vec: ImVec2): PrefsNode	
+newPNode	imstyle.html#newPNode,PrefsNode	imstyle: newPNode(node: PrefsNode): PrefsNode	
+getIgStyle	imstyle.html#getIgStyle,PObjectType	imstyle: getIgStyle(data: PObjectType): ImGuiStyle	
+getIgStyle	imstyle.html#getIgStyle,PrefsNode	imstyle: getIgStyle(data: PrefsNode): ImGuiStyle	
+getIgStyle	imstyle.html#getIgStyle,string	imstyle: getIgStyle(path: string): ImGuiStyle	
+setIgStyle	imstyle.html#setIgStyle,PObjectType	imstyle: setIgStyle(data: PObjectType)	
+setIgStyle	imstyle.html#setIgStyle,PrefsNode	imstyle: setIgStyle(data: PrefsNode): ImGuiStyle	
+setIgStyle	imstyle.html#setIgStyle,string	imstyle: setIgStyle(path: string)	
+toString	imstyle.html#toString,ImGuiStyle,proc(ImVec4)	imstyle: toString(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (\n    col: ImVec4): PrefsNode = result = newPNode(col)): string	
+writeTo	imstyle.html#writeTo,ImGuiStyle,string	imstyle: writeTo(style: ImGuiStyle; path: string)	

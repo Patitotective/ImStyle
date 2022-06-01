@@ -1,3 +1,35 @@
+## ImStyle is a library that helps you to manage your Dear ImGui application's style.  
+## Load the style from a [niprefs](https://github.com/Patitotective/niprefs) file rather than hard-coding it into your app.  
+## Using ImStyle also allows you to change your app's style without compiling it again (since the style is read from a file).
+## 
+## Without ImStyle you need to set the style from code:
+## ```nim
+## import nimgl/imgui
+## ...
+## var style = igGetStyle()
+## style.alpha = 1f
+## style.windowPadding = ImVec2(x: 4f, y: 4f)
+## style.windowMenuButtonPosition = ImGuiDir.Left
+## style.colors[ord Text] = ImVec4(x: 0f, y: 0f, z: 0f, w: 1f) # RGBA
+## ...
+## ```
+## Using ImStyle you need to create a `niprefs` file (e.i.: `style.niprefs`), that will look like:
+## ```nim
+## # ImStyle
+## alpha = 1 # -> 1f
+## windowPadding = [4, 4] # -> ImVec2(x: 4f, y: 4f) 
+## windowMenuButtonPosition = "Left" # Or 0
+## colors=>
+##  Text = "#000000" # or "rgb(0, 0, 0)" or [0, 0, 0]
+## ```
+## And load it in your code:
+## ```nim
+## import imstyle
+## ...
+## setIgStyle("style.niprefs")
+## ...
+## ```
+
 import std/[strutils, strformat]
 
 import chroma
@@ -28,6 +60,18 @@ proc toImVec2(s: PSeqType): ImVec2 =
 
 proc toImVec4(color: Color): ImVec4 = 
   ImVec4(x: color.r, y: color.g, z: color.b, w: color.a)
+
+proc newPNode*(vec: ImVec4): PrefsNode = 
+  ## Helper proc to conver an ImVec4 to a PrefsNode sequence.
+  toPrefs([vec.x, vec.y, vec.z, vec.w])
+
+proc newPNode*(vec: ImVec2): PrefsNode = 
+  ## Helper proc to conver an ImVec2 to a PrefsNode sequence.
+  toPrefs([vec.x, vec.y])
+
+proc newPNode*(node: PrefsNode): PrefsNode = 
+  ## Helper to trick the toPrefs macro to accept PrefsNode objects.
+  node
 
 proc toImGuiDir(node: PrefsNode): ImGuiDir = 
   case node.kind:
@@ -63,6 +107,8 @@ proc readColors(data: PrefsNode): array[53, ImVec4] =
       raise newException(ValueError, &"Invalid kind {color.kind} for a color. Valid values are either PString or PSeq")
 
 proc getIgStyle*(data: PObjectType): ImGuiStyle = 
+  ## Return an ImGuiStyle object from `data`.
+
   if "alpha" in data: result.alpha = data["alpha"].toFloat().getFloat()
   if "windowPadding" in data: result.windowPadding = data["windowPadding"].toFloat().getSeq().toImVec2()
   if "windowRounding" in data: result.windowRounding = data["windowRounding"].toFloat().getFloat()
@@ -111,6 +157,7 @@ proc getIgStyle*(path: string): ImGuiStyle =
   readPrefs(path).getIgStyle()
 
 proc setIgStyle*(data: PObjectType) = 
+  ## Change the current style from `data`.
   var style = igGetStyle()
 
   if "alpha" in data: style.alpha = data["alpha"].toFloat().getFloat()
@@ -159,3 +206,107 @@ proc setIgStyle*(data: PrefsNode): ImGuiStyle =
 
 proc setIgStyle*(path: string) = 
   readPrefs(path).setIgStyle()
+
+proc toString*(style: ImGuiStyle, colorProc: proc(col: ImVec4): PrefsNode = proc(col: ImVec4): PrefsNode = col.newPNode()): string {.discardable.} = 
+  ## Convert `style` to a niprefs representation.  
+  ## Use `colorProc` to change the color format, for example to write hex using chroma: `proc(col: ImVec4): PrefsNode = color(col.x, col.y, col.z, col.w).toHex().newPNode()`.
+  toPrefs({
+    alpha: style.alpha, 
+    windowPadding: style.windowPadding, 
+    windowRounding: style.windowRounding, 
+    windowBorderSize: style.windowBorderSize, 
+    windowMinSize: style.windowMinSize, 
+    windowTitleAlign: style.windowTitleAlign, 
+    windowMenuButtonPosition: $style.windowMenuButtonPosition, 
+    childRounding: style.childRounding, 
+    childBorderSize: style.childBorderSize, 
+    popupRounding: style.popupRounding, 
+    popupBorderSize: style.popupBorderSize, 
+    framePadding: style.framePadding, 
+    frameRounding: style.frameRounding, 
+    frameBorderSize: style.frameBorderSize, 
+    itemSpacing: style.itemSpacing, 
+    itemInnerSpacing: style.itemInnerSpacing, 
+    cellPadding: style.cellPadding, 
+    touchExtraPadding: style.touchExtraPadding, 
+    indentSpacing: style.indentSpacing, 
+    columnsMinSpacing: style.columnsMinSpacing, 
+    scrollbarSize: style.scrollbarSize, 
+    scrollbarRounding: style.scrollbarRounding, 
+    grabMinSize: style.grabMinSize, 
+    grabRounding: style.grabRounding, 
+    logSliderDeadzone: style.logSliderDeadzone, 
+    tabRounding: style.tabRounding, 
+    tabBorderSize: style.tabBorderSize, 
+    tabMinWidthForCloseButton: style.tabMinWidthForCloseButton, 
+    colorButtonPosition: $style.colorButtonPosition, 
+    buttonTextAlign: style.buttonTextAlign, 
+    selectableTextAlign: style.selectableTextAlign, 
+    displayWindowPadding: style.displayWindowPadding, 
+    displaySafeAreaPadding: style.displaySafeAreaPadding, 
+    mouseCursorScale: style.mouseCursorScale, 
+    antiAliasedLines: style.antiAliasedLines, 
+    antiAliasedLinesUseTex: style.antiAliasedLinesUseTex, 
+    antiAliasedFill: style.antiAliasedFill, 
+    curveTessellationTol: style.curveTessellationTol, 
+    # circleSegmentMaxError: style.circleSegmentMaxError, 
+    colors: {
+      Text: style.colors[ord ImGuiCol.Text].colorProc(), 
+      TextDisabled: style.colors[ord ImGuiCol.TextDisabled].colorProc(), 
+      WindowBg: style.colors[ord ImGuiCol.WindowBg].colorProc(), 
+      ChildBg: style.colors[ord ImGuiCol.ChildBg].colorProc(), 
+      PopupBg: style.colors[ord ImGuiCol.PopupBg].colorProc(),
+      Border: style.colors[ord ImGuiCol.Border].colorProc(), 
+      BorderShadow: style.colors[ord ImGuiCol.BorderShadow].colorProc(), 
+      FrameBg: style.colors[ord ImGuiCol.FrameBg].colorProc(), 
+      FrameBgHovered: style.colors[ord ImGuiCol.FrameBgHovered].colorProc(),
+      FrameBgActive: style.colors[ord ImGuiCol.FrameBgActive].colorProc(), 
+      TitleBg: style.colors[ord ImGuiCol.TitleBg].colorProc(), 
+      TitleBgActive: style.colors[ord ImGuiCol.TitleBgActive].colorProc(), 
+      TitleBgCollapsed: style.colors[ord ImGuiCol.TitleBgCollapsed].colorProc(),
+      MenuBarBg: style.colors[ord ImGuiCol.MenuBarBg].colorProc(), 
+      ScrollbarBg: style.colors[ord ImGuiCol.ScrollbarBg].colorProc(), 
+      ScrollbarGrab: style.colors[ord ImGuiCol.ScrollbarGrab].colorProc(),
+      ScrollbarGrabHovered: style.colors[ord ImGuiCol.ScrollbarGrabHovered].colorProc(), 
+      ScrollbarGrabActive: style.colors[ord ImGuiCol.ScrollbarGrabActive].colorProc(), 
+      CheckMark: style.colors[ord ImGuiCol.CheckMark].colorProc(),
+      SliderGrab: style.colors[ord ImGuiCol.SliderGrab].colorProc(), 
+      SliderGrabActive: style.colors[ord ImGuiCol.SliderGrabActive].colorProc(), 
+      Button: style.colors[ord ImGuiCol.Button].colorProc(), 
+      ButtonHovered: style.colors[ord ImGuiCol.ButtonHovered].colorProc(),
+      ButtonActive: style.colors[ord ImGuiCol.ButtonActive].colorProc(), 
+      Header: style.colors[ord ImGuiCol.Header].colorProc(), 
+      HeaderHovered: style.colors[ord ImGuiCol.HeaderHovered].colorProc(), 
+      HeaderActive: style.colors[ord ImGuiCol.HeaderActive].colorProc(),
+      Separator: style.colors[ord ImGuiCol.Separator].colorProc(), 
+      SeparatorHovered: style.colors[ord ImGuiCol.SeparatorHovered].colorProc(), 
+      SeparatorActive: style.colors[ord ImGuiCol.SeparatorActive].colorProc(), 
+      ResizeGrip: style.colors[ord ImGuiCol.ResizeGrip].colorProc(),
+      ResizeGripHovered: style.colors[ord ImGuiCol.ResizeGripHovered].colorProc(), 
+      ResizeGripActive: style.colors[ord ImGuiCol.ResizeGripActive].colorProc(), 
+      Tab: style.colors[ord ImGuiCol.Tab].colorProc(), 
+      TabHovered: style.colors[ord ImGuiCol.TabHovered].colorProc(),
+      TabActive: style.colors[ord ImGuiCol.TabActive].colorProc(), 
+      TabUnfocused: style.colors[ord ImGuiCol.TabUnfocused].colorProc(), 
+      TabUnfocusedActive: style.colors[ord ImGuiCol.TabUnfocusedActive].colorProc(), 
+      PlotLines: style.colors[ord ImGuiCol.PlotLines].colorProc(),
+      PlotLinesHovered: style.colors[ord ImGuiCol.PlotLinesHovered].colorProc(), 
+      PlotHistogram: style.colors[ord ImGuiCol.PlotHistogram].colorProc(), 
+      PlotHistogramHovered: style.colors[ord ImGuiCol.PlotHistogramHovered].colorProc(),
+      TableHeaderBg: style.colors[ord ImGuiCol.TableHeaderBg].colorProc(), 
+      TableBorderStrong: style.colors[ord ImGuiCol.TableBorderStrong].colorProc(), 
+      TableBorderLight: style.colors[ord ImGuiCol.TableBorderLight].colorProc(),
+      TableRowBg: style.colors[ord ImGuiCol.TableRowBg].colorProc(), 
+      TableRowBgAlt: style.colors[ord ImGuiCol.TableRowBgAlt].colorProc(), 
+      TextSelectedBg: style.colors[ord ImGuiCol.TextSelectedBg].colorProc(), 
+      DragDropTarget: style.colors[ord ImGuiCol.DragDropTarget].colorProc(),
+      NavHighlight: style.colors[ord ImGuiCol.NavHighlight].colorProc(), 
+      NavWindowingHighlight: style.colors[ord ImGuiCol.NavWindowingHighlight].colorProc(), 
+      NavWindowingDimBg: style.colors[ord ImGuiCol.NavWindowingDimBg].colorProc(),
+      ModalWindowDimBg: style.colors[ord ImGuiCol.ModalWindowDimBg].colorProc()
+    } 
+  }).toString()
+
+proc writeTo*(style: ImGuiStyle, path: string) = 
+  ## Write `style.toString()` to `path`.
+  writeFile(style.toString(), path)
