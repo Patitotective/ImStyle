@@ -207,7 +207,7 @@ proc setIgStyle*(data: PrefsNode): ImGuiStyle =
 proc setIgStyle*(path: string) = 
   readPrefs(path).setIgStyle()
 
-proc toString*(style: ImGuiStyle, colorProc: proc(col: ImVec4): PrefsNode = proc(col: ImVec4): PrefsNode = col.newPNode()): string {.discardable.} = 
+proc toString*(style: ImGuiStyle, colorProc: proc(col: ImVec4): PrefsNode = proc(col: ImVec4): PrefsNode = col.newPNode()): string = 
   ## Convert `style` to a niprefs representation.  
   ## Use `colorProc` to change the color format, for example to write hex using chroma: `proc(col: ImVec4): PrefsNode = color(col.x, col.y, col.z, col.w).toHex().newPNode()`.
   toPrefs({
@@ -307,6 +307,6 @@ proc toString*(style: ImGuiStyle, colorProc: proc(col: ImVec4): PrefsNode = proc
     } 
   }).toString()
 
-proc writeTo*(style: ImGuiStyle, path: string) = 
+proc writeTo*(style: ImGuiStyle, path: string, colorProc: proc(col: ImVec4): PrefsNode = proc(col: ImVec4): PrefsNode = col.newPNode()) = 
   ## Write `style.toString()` to `path`.
-  writeFile(style.toString(), path)
+  writeFile(path, style.toString(colorProc))

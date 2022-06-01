@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.1"
+version       = "0.1.2"
 author        = "Patitotective"
 description   = "A nice way to manage your ImGui application's style"
 license       = "MIT"
