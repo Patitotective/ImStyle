@@ -3,211 +3,26 @@ import niprefs
 import nimgl/imgui
 # import ../imstyle
 
-const alignCount = 28
-# Properties with its tags and help (last element)
-let styleProperties = toPrefs {
-  alpha: {
-    name: "", 
-    kind: "render", 
-    help: "Global alpha applies to everything in Dear ImGui."
-  }, 
-  disabledAlpha: {
-    name: "", 
-    kind: "render", 
-    help: "Additional alpha multiplier applied by BeginDisabled(). Multiply over current value of Alpha."
-  }, 
-  windowPadding: {
-    name: "window",
-    kind: "padding", 
-    help: "Padding within a window."
-  }, 
-  windowRounding: {
-    name: "window",
-    kind: "rounding", 
-    help: "Radius of window corners rounding. Set to 0.0f to have rectangular windows. Large values tend to lead to variety of artifacts and are not recommended."
-  }, 
-  windowBorderSize: {
-    name: "window",
-    kind: "borderSize", 
-    help: "Thickness of border around windows. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly)."
-  }, 
-  windowMinSize: {
-    name: "window",
-    kind: "size", 
-    help: "Minimum window size. This is a global setting. If you want to constraint individual windows, use SetNextWindowSizeConstraints()."
-  }, 
-  windowTitleAlign: {
-    name: "window",
-    kind: "align", 
-    help: "Alignment for title bar text. Defaults to (0.0f,0.5f) for left-aligned,vertically centered."
-  }, 
-  windowMenuButtonPosition: {
-    name: "window",
-    kind: "align", 
-    help: "Side of the collapsing/docking button in the title bar (None/Left/Right). Defaults to ImGuiDir_Left."
-  }, 
-  childRounding: {
-    name: "child",
-    kind: "rounding", 
-    help: "Radius of child window corners rounding. Set to 0.0f to have rectangular windows."
-  }, 
-  childBorderSize: {
-    name: "child",
-    kind: "borderSize", 
-    help: "Thickness of border around child windows. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly)."
-  }, 
-  popupRounding: {
-    name: "popup",
-    kind: "rounding", 
-    help: "Radius of popup window corners rounding. (Note that tooltip windows use WindowRounding)"
-  }, 
-  popupBorderSize: {
-    name: "popup",
-    kind: "borderSize", 
-    help: "Thickness of border around popup/tooltip windows. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly)."
-  }, 
-  framePadding: {
-    name: "frame",
-    kind: "padding", 
-    help: "Padding within a framed rectangle (used by most widgets)."
-  }, 
-  frameRounding: {
-    name: "frame",
-    kind: "rounding", 
-    help: "Radius of frame corners rounding. Set to 0.0f to have rectangular frame (used by most widgets)."
-  }, 
-  frameBorderSize: {
-    name: "frame",
-    kind: "borderSize", 
-    help: "Thickness of border around frames. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly)."
-  }, 
-  itemSpacing: {
-    name: "item",
-    kind: "spacing", 
-    help: "Horizontal and vertical spacing between widgets/lines."
-  }, 
-  itemInnerSpacing: {
-    name: "item",
-    kind: "spacing", 
-    help: "Horizontal and vertical spacing between within elements of a composed widget (e.g. a slider and its label)."
-  }, 
-  cellPadding: {
-    name: "", 
-    kind: "padding", 
-    help: "Padding within a table cell"
-  }, 
-  touchExtraPadding: {
-    name: "", 
-    kind: "padding", 
-    help: "Expand reactive bounding box for touch-based system where touch position is not accurate enough. Unfortunately we don't sort widgets so priority on overlap will always be given to the first widget. So don't grow this too much!"
-  }, 
-  indentSpacing: {
-    name: "", 
-    kind: "spacing", 
-    help: "Horizontal indentation when e.g. entering a tree node. Generally == (FontSize + FramePadding.x*2)."
-  }, 
-  columnsMinSpacing: {
-    name: "", 
-    kind: "spacing", 
-    help: "Minimum horizontal spacing between two columns. Preferably > (FramePadding.x + 1)."
-  }, 
-  scrollbarSize: {
-    name: "", 
-    kind: "size", 
-    help: "Width of the vertical scrollbar, Height of the horizontal scrollbar."
-  }, 
-  scrollbarRounding: {
-    name: "", 
-    kind: "rounding", 
-    help: "Radius of grab corners for scrollbar."
-  }, 
-  grabMinSize: {
-    name: "", 
-    kind: "size", 
-    help: "Minimum width/height of a grab box for slider/scrollbar."
-  }, 
-  grabRounding: {
-    name: "", 
-    kind: "rounding", 
-    help: "Radius of grabs corners rounding. Set to 0.0f to have rectangular slider grabs."
-  }, 
-  logSliderDeadzone: {
-    name: "", 
-    kind: "",
-    help: "The size in pixels of the dead-zone around zero on logarithmic sliders that cross zero."
-  }, 
-  tabRounding: {
-    name: "tab",
-    kind: "rounding", 
-    help: "Radius of upper corners of a tab. Set to 0.0f to have rectangular tabs."
-  }, 
-  tabBorderSize: {
-    name: "tab",
-    kind: "borderSize", 
-    help: "Thickness of border around tabs."
-  }, 
-  tabMinWidthForCloseButton: {
-    name: "tab", 
-    kind: ""
-    "Minimum width for close b
-    help: utton to appears on an unselected tab when hovered. Set to 0.0f to always show when hovering, set to FLT_MAX to never show close button unless selected."
-  }, 
-  colorButtonPosition: {
-    name: "", 
-    kind: "align", 
-    help: "Side of the color button in the ColorEdit4 widget (left/right). Defaults to ImGuiDir_Right."
-  }, 
-  buttonTextAlign: {
-    name: "", 
-    kind: "align", 
-    help: "Alignment of button text when button is larger than text. Defaults to (0.5f, 0.5f) (centered)."
-  }, 
-  selectableTextAlign: {
-    name: "", 
-    kind: "align", 
-    help: "Alignment of selectable text. Defaults to (0.0f, 0.0f) (top-left aligned). It's generally important to keep this left-aligned if you want to lay multiple items on a same line."
-  }, 
-  displayWindowPadding: {
-    name: "", 
-    kind: "padding", 
-    help: "Window position are clamped to be visible within the display area or monitors by at least this amount. Only applies to regular windows."
-  }, 
-  displaySafeAreaPadding: {
-    name: "", 
-    kind: "padding", 
-    help: "If you cannot see the edges of your screen (e.g. on a TV) increase the safe area padding. Apply to popups/tooltips as well regular windows. NB: Prefer configuring your TV sets correctly!"
-  }, 
-  mouseCursorScale: {
-    name: "", 
-    kind: "render", 
-    help: "Scale software rendered mouse cursor (when io.MouseDrawCursor is enabled). May be removed later."
-  }, 
-  antiAliasedLines: {
-    name: "", 
-    kind: "render", 
-    help: "Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList)."
-  }, 
-  antiAliasedLinesUseTex: {
-    name: "", 
-    kind: "render", 
-    help: "Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering (NOT point/nearest filtering). Latched at the beginning of the frame (copied to ImDrawList)."
-  }, 
-  antiAliasedFill: {
-    name: "", 
-    kind: "render", 
-    help: "Enable anti-aliased edges around filled shapes (rounded rectangles, circles, etc.). Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList)."
-  }, 
-  curveTessellationTol: {
-    name: "", 
-    kind: "render", 
-    help: "Tessellation tolerance when using PathBezierCurveTo() without a specific number of segments. Decrease for highly tessellated curves (higher quality, more polygons), increase to reduce quality."
-  }, 
-  circleTessellationMaxError: {
-    name: "", 
-    kind: "render", 
-    help: "Maximum error (in pixels) allowed when using AddCircle()/AddCircleFilled() or drawing rounded corner rectangles with no explicit segment count specified. Decrease for higher quality but more geometry."
-  }, 
-}
+const
+  alignCount = 28
+  widgetsGroup = { # Style properties grouped by widgets
+    "": @[Alpha, DisabledAlpha, IndentSpacing, CellPadding, TabRounding, ButtonTextAlign, SelectableTextAlign], 
+    "Window": @[WindowPadding, WindowBorderSize, WindowMinSize, WindowTitleAlign], 
+    "Child": @[ChildRounding, ChildBorderSize], 
+    "Popup": @[PopupRounding, PopupBorderSize], 
+    "Frame": @[ImGuiStyleVar.FramePadding, FrameRounding, FrameBorderSize], 
+    "Item": @[ItemSpacing, ItemInnerSpacing], 
+    "Scrollbar": @[ScrollbarSize, ScrollbarRounding], 
+    "Grab": @[GrabMinSize, GrabRounding], 
+  }.toTable()
+  propsGroup = { # Style properties grouped by property kinds
+    "": @[Alpha, DisabledAlpha], 
+    "Padding & Spacing": @[WindowPadding, ImGuiStyleVar.FramePadding, ItemSpacing, ItemInnerSpacing, IndentSpacing], 
+    "Rounding": @[WindowRounding, ChildRounding, PopupRounding, FrameRounding, ScrollbarRounding, GrabRounding, TabRounding], 
+    "Border": @[WindowBorderSize, ChildBorderSize, PopupBorderSize, FrameBorderSize], 
+    "Size": @[WindowMinSize, ScrollbarSize, GrabMinSize], 
+    "Alignment": @[WindowTitleAlign, ButtonTextAlign, SelectableTextAlign], 
+  }.toTable()
 
 proc igHelpMarker(text: string, sameLineBefore = true) = 
   if sameLineBefore: igSameLine()
@@ -249,8 +64,35 @@ proc drawImStyleEditor*(refStyle: ptr ImGuiStyle = nil, filter: string = "kind")
 
     if igBeginTabBar("##tabs"):
       if igBeginTabItem("Sizes"):
-        for styleVar, data in styleProperties:
-            
+        drawFloatStyleVar(alpha, 0.1, 1, format = "%.2f"); igHelpMarker("Global alpha applies to everything in Dear ImGui.")
+        drawFloatStyleVar(disabledAlpha, 0.1, 1, format = "%.2f"); igHelpMarker("Additional alpha multiplier applied by BeginDisabled(). Multiply over current value of Alpha.")
+        drawVec2StyleVar(windowPadding); igHelpMarker("Padding within a window.")
+        drawFloatStyleVar(windowRounding); igHelpMarker("Radius of window corners rounding. Set to 0.0f to have rectangular windows. Large values tend to lead to variety of artifacts and are not recommended.")
+        drawFloatStyleVar(windowBorderSize, 0, 1, "%.0f"); igHelpMarker("Thickness of border around windows. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly).")
+        drawVec2StyleVar(windowMinSize, 1, 20); igHelpMarker("Minimum window size. This is a global setting. If you want to constraint individual windows, use SetNextWindowSizeConstraints().")
+        drawVec2StyleVar(windowTitleAlign); igHelpMarker("Alignment for title bar text. Defaults to (0.0f,0.5f) for left-aligned,vertically centered.")
+        drawFloatStyleVar(childRounding); igHelpMarker("Radius of child window corners rounding. Set to 0.0f to have rectangular windows.")
+        drawFloatStyleVar(childBorderSize, 0, 1, "%.0f"); igHelpMarker("Thickness of border around child windows. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly).")
+        drawFloatStyleVar(popupRounding); igHelpMarker("Radius of popup window corners rounding. (Note that tooltip windows use WindowRounding)")
+        drawFloatStyleVar(popupBorderSize, 0, 1, "%.0f"); igHelpMarker("Thickness of border around popup/tooltip windows. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly).")
+        drawVec2StyleVar(framePadding); igHelpMarker("Padding within a framed rectangle (used by most widgets).")
+        drawFloatStyleVar(frameRounding); igHelpMarker("Radius of frame corners rounding. Set to 0.0f to have rectangular frame (used by most widgets).")
+        drawFloatStyleVar(frameBorderSize, 0, 1, "%.0f"); igHelpMarker("Thickness of border around frames. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly).")
+        drawVec2StyleVar(itemSpacing); igHelpMarker("Horizontal and vertical spacing between widgets/lines.")
+        drawVec2StyleVar(itemInnerSpacing); igHelpMarker("Horizontal and vertical spacing between within elements of a composed widget (e.g. a slider and its label).")
+        drawFloatStyleVar(indentSpacing); igHelpMarker("Horizontal indentation when e.g. entering a tree node. Generally == (FontSize + FramePadding.x*2).")
+        drawVec2StyleVar(cellPadding); igHelpMarker("Padding within a table cell")
+        drawFloatStyleVar(scrollbarSize); igHelpMarker("Width of the vertical scrollbar, Height of the horizontal scrollbar.")
+        drawFloatStyleVar(scrollbarRounding); igHelpMarker("Radius of grab corners for scrollbar.")
+        drawFloatStyleVar(grabMinSize); igHelpMarker("Minimum width/height of a grab box for slider/scrollbar.")
+        drawFloatStyleVar(grabRounding); igHelpMarker("Radius of grabs corners rounding. Set to 0.0f to have rectangular slider grabs.")
+        drawFloatStyleVar(tabRounding); igHelpMarker("Radius of upper corners of a tab. Set to 0.0f to have rectangular tabs.")
+        # drawFloatStyleVar(tabBorderSize, 0, 1, "%.0f"); igHelpMarker("Thickness of border around tabs.")
+        # drawComboStyleVar(windowMenuButtonPosition, [ImGuiDir.None, ImGuiDir.Left, ImGuiDir.Right]); igHelpMarker("Side of the collapsing/docking button in the title bar (None/Left/Right). Defaults to ImGuiDir_Left.")
+        # drawComboStyleVar(colorButtonPosition, [ImGuiDir.None, ImGuiDir.Left, ImGuiDir.Right]); igHelpMarker("Side of the color button in the ColorEdit4 widget (left/right). Defaults to ImGuiDir_Right.")
+        drawVec2StyleVar(buttonTextAlign); igHelpMarker("Alignment of button text when button is larger than text. Defaults to (0.5f, 0.5f) (centered).")
+        drawVec2StyleVar(selectableTextAlign); igHelpMarker("Alignment of selectable text. Defaults to (0.0f, 0.0f) (top-left aligned). It's generally important to keep this left-aligned if you want to lay multiple items on a same line.")
+
         igEndTabItem()
 
       #[
