@@ -110,6 +110,7 @@ proc getIgStyle*(data: PObjectType): ImGuiStyle =
   ## Return an ImGuiStyle object from `data`.
 
   if "alpha" in data: result.alpha = data["alpha"].toFloat().getFloat()
+  if "disabledAlpha" in data: result.disabledAlpha = data["disabledAlpha"].toFloat().getFloat()
   if "windowPadding" in data: result.windowPadding = data["windowPadding"].toFloat().getSeq().toImVec2()
   if "windowRounding" in data: result.windowRounding = data["windowRounding"].toFloat().getFloat()
   if "windowBorderSize" in data: result.windowBorderSize = data["windowBorderSize"].toFloat().getFloat()
@@ -147,7 +148,7 @@ proc getIgStyle*(data: PObjectType): ImGuiStyle =
   if "antiAliasedLinesUseTex" in data: result.antiAliasedLinesUseTex = data["antiAliasedLinesUseTex"].getBool()
   if "antiAliasedFill" in data: result.antiAliasedFill = data["antiAliasedFill"].getBool()
   if "curveTessellationTol" in data: result.curveTessellationTol = data["curveTessellationTol"].toFloat().getFloat()
-  # if "circleSegmentMaxError" in data: result.circleSegmentMaxError = data["circleSegmentMaxError"].toFloat().getFloat()
+  if "circleTessellationMaxError" in data: result.circleTessellationMaxError = data["circleTessellationMaxError"].toFloat().getFloat()
   if "colors" in data: result.colors = data["colors"].readColors()
 
 proc getIgStyle*(data: PrefsNode): ImGuiStyle = 
@@ -161,6 +162,7 @@ proc setIgStyle*(data: PObjectType) =
   var style = igGetStyle()
 
   if "alpha" in data: style.alpha = data["alpha"].toFloat().getFloat()
+  if "disabledAlpha" in data: style.disabledAlpha = data["disabledAlpha"].toFloat().getFloat()
   if "windowPadding" in data: style.windowPadding = data["windowPadding"].toFloat().getSeq().toImVec2()
   if "windowRounding" in data: style.windowRounding = data["windowRounding"].toFloat().getFloat()
   if "windowBorderSize" in data: style.windowBorderSize = data["windowBorderSize"].toFloat().getFloat()
@@ -198,7 +200,7 @@ proc setIgStyle*(data: PObjectType) =
   if "antiAliasedLinesUseTex" in data: style.antiAliasedLinesUseTex = data["antiAliasedLinesUseTex"].getBool()
   if "antiAliasedFill" in data: style.antiAliasedFill = data["antiAliasedFill"].getBool()
   if "curveTessellationTol" in data: style.curveTessellationTol = data["curveTessellationTol"].toFloat().getFloat()
-  # if "circleSegmentMaxError" in data: style.circleSegmentMaxError = data["circleSegmentMaxError"].toFloat().getFloat()
+  if "circleTessellationMaxError" in data: style.circleTessellationMaxError = data["circleTessellationMaxError"].toFloat().getFloat()
   if "colors" in data: style.colors = data["colors"].readColors()
 
 proc setIgStyle*(data: PrefsNode): ImGuiStyle = 
@@ -212,6 +214,7 @@ proc toString*(style: ImGuiStyle, colorProc: proc(col: ImVec4): PrefsNode = proc
   ## Use `colorProc` to change the color format, for example to write hex using chroma: `proc(col: ImVec4): PrefsNode = color(col.x, col.y, col.z, col.w).toHex().newPNode()`.
   toPrefs({
     alpha: style.alpha, 
+    disabledAlpha: style.disabledAlpha, 
     windowPadding: style.windowPadding, 
     windowRounding: style.windowRounding, 
     windowBorderSize: style.windowBorderSize, 
@@ -249,7 +252,7 @@ proc toString*(style: ImGuiStyle, colorProc: proc(col: ImVec4): PrefsNode = proc
     antiAliasedLinesUseTex: style.antiAliasedLinesUseTex, 
     antiAliasedFill: style.antiAliasedFill, 
     curveTessellationTol: style.curveTessellationTol, 
-    # circleSegmentMaxError: style.circleSegmentMaxError, 
+    circleTessellationMaxError: style.circleTessellationMaxError, 
     colors: {
       Text: style.colors[ord ImGuiCol.Text].colorProc(), 
       TextDisabled: style.colors[ord ImGuiCol.TextDisabled].colorProc(), 
