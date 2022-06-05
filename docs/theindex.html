@@ -89,11 +89,17 @@ window.addEventListener('DOMContentLoaded', main);
           </ul></dd>
 <dt><a name="setIgStyle" href="#setIgStyle"><span>setIgStyle:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="imstyle: setIgStyle(data: PObjectType)" href="imstyle.html#setIgStyle%2CPObjectType">imstyle: setIgStyle(data: PObjectType)</a></li>
+          data-doc-search-tag="imstyle: setIgStyle(data: PObjectType; style: ptr ImGuiStyle = igGetStyle())" href="imstyle.html#setIgStyle%2CPObjectType%2Cptr.ImGuiStyle">imstyle: setIgStyle(data: PObjectType; style: ptr ImGuiStyle = igGetStyle())</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="imstyle: setIgStyle(data: PrefsNode): ImGuiStyle" href="imstyle.html#setIgStyle%2CPrefsNode">imstyle: setIgStyle(data: PrefsNode): ImGuiStyle</a></li>
+          data-doc-search-tag="imstyle: setIgStyle(data: PrefsNode; style: ptr ImGuiStyle = igGetStyle())" href="imstyle.html#setIgStyle%2CPrefsNode%2Cptr.ImGuiStyle">imstyle: setIgStyle(data: PrefsNode; style: ptr ImGuiStyle = igGetStyle())</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="imstyle: setIgStyle(path: string)" href="imstyle.html#setIgStyle%2Cstring">imstyle: setIgStyle(path: string)</a></li>
+          data-doc-search-tag="imstyle: setIgStyle(path: string; style: ptr ImGuiStyle = igGetStyle())" href="imstyle.html#setIgStyle%2Cstring%2Cptr.ImGuiStyle">imstyle: setIgStyle(path: string; style: ptr ImGuiStyle = igGetStyle())</a></li>
+          </ul></dd>
+<dt><a name="toNode" href="#toNode"><span>toNode:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="imstyle: toNode(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (
+    col: ImVec4): PrefsNode = result = newPNode(col)): PrefsNode" href="imstyle.html#toNode%2CImGuiStyle%2Cproc%28ImVec4%29">imstyle: toNode(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (
+    col: ImVec4): PrefsNode = result = newPNode(col)): PrefsNode</a></li>
           </ul></dd>
 <dt><a name="toString" href="#toString"><span>toString:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -101,16 +107,12 @@ window.addEventListener('DOMContentLoaded', main);
     col: ImVec4): PrefsNode = result = newPNode(col)): string" href="imstyle.html#toString%2CImGuiStyle%2Cproc%28ImVec4%29">imstyle: toString(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (
     col: ImVec4): PrefsNode = result = newPNode(col)): string</a></li>
           </ul></dd>
-<dt><a name="writeTo" href="#writeTo"><span>writeTo:</span></a></dt><dd><ul class="simple">
-<li><a class="reference external"
-          data-doc-search-tag="imstyle: writeTo(style: ImGuiStyle; path: string)" href="imstyle.html#writeTo%2CImGuiStyle%2Cstring">imstyle: writeTo(style: ImGuiStyle; path: string)</a></li>
-          </ul></dd>
 </dl>
     <div class="row">
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-06-01 03:17:14 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-06-05 14:03:58 UTC</small>
       </div>
     </div>
   </div>

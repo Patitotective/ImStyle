@@ -107,8 +107,7 @@ proc readColors(data: PrefsNode): array[53, ImVec4] =
       raise newException(ValueError, &"Invalid kind {color.kind} for a color. Valid values are either PString or PSeq")
 
 proc getIgStyle*(data: PObjectType): ImGuiStyle = 
-  ## Return an ImGuiStyle object from `data`.
-
+  ## Return the style in `data`.
   if "alpha" in data: result.alpha = data["alpha"].toFloat().getFloat()
   if "disabledAlpha" in data: result.disabledAlpha = data["disabledAlpha"].toFloat().getFloat()
   if "windowPadding" in data: result.windowPadding = data["windowPadding"].toFloat().getSeq().toImVec2()
@@ -152,15 +151,15 @@ proc getIgStyle*(data: PObjectType): ImGuiStyle =
   if "colors" in data: result.colors = data["colors"].readColors()
 
 proc getIgStyle*(data: PrefsNode): ImGuiStyle = 
+  ## Return the style in `data`.
   data.getObject().getIgStyle()
 
 proc getIgStyle*(path: string): ImGuiStyle = 
+  ## Read `path` and return the style.
   readPrefs(path).getIgStyle()
 
-proc setIgStyle*(data: PObjectType) = 
-  ## Change the current style from `data`.
-  var style = igGetStyle()
-
+proc setIgStyle*(data: PObjectType, style: ptr ImGuiStyle = igGetStyle()) = 
+  ## Set `data` to `style`
   if "alpha" in data: style.alpha = data["alpha"].toFloat().getFloat()
   if "disabledAlpha" in data: style.disabledAlpha = data["disabledAlpha"].toFloat().getFloat()
   if "windowPadding" in data: style.windowPadding = data["windowPadding"].toFloat().getSeq().toImVec2()
@@ -203,14 +202,16 @@ proc setIgStyle*(data: PObjectType) =
   if "circleTessellationMaxError" in data: style.circleTessellationMaxError = data["circleTessellationMaxError"].toFloat().getFloat()
   if "colors" in data: style.colors = data["colors"].readColors()
 
-proc setIgStyle*(data: PrefsNode): ImGuiStyle = 
-  data.getObject().setIgStyle()
+proc setIgStyle*(data: PrefsNode, style: ptr ImGuiStyle = igGetStyle()) = 
+  ## Set `data` to `style`
+  data.getObject().setIgStyle(style)
 
-proc setIgStyle*(path: string) = 
-  readPrefs(path).setIgStyle()
+proc setIgStyle*(path: string, style: ptr ImGuiStyle = igGetStyle()) = 
+  ## Read `path` and set its content to `style`
+  readPrefs(path).setIgStyle(style)
 
-proc toString*(style: ImGuiStyle, colorProc: proc(col: ImVec4): PrefsNode = proc(col: ImVec4): PrefsNode = col.newPNode()): string = 
-  ## Convert `style` to a niprefs representation.  
+proc toNode*(style: ImGuiStyle, colorProc: proc(col: ImVec4): PrefsNode = proc(col: ImVec4): PrefsNode = col.newPNode()): PrefsNode = 
+  ## Convert `style` to a PrefsNode.  
   ## Use `colorProc` to change the color format, for example to write hex using chroma: `proc(col: ImVec4): PrefsNode = color(col.x, col.y, col.z, col.w).toHex().newPNode()`.
   toPrefs({
     alpha: style.alpha, 
@@ -308,8 +309,8 @@ proc toString*(style: ImGuiStyle, colorProc: proc(col: ImVec4): PrefsNode = proc
       NavWindowingDimBg: style.colors[ord ImGuiCol.NavWindowingDimBg].colorProc(),
       ModalWindowDimBg: style.colors[ord ImGuiCol.ModalWindowDimBg].colorProc()
     } 
-  }).toString()
+  })
 
-proc writeTo*(style: ImGuiStyle, path: string, colorProc: proc(col: ImVec4): PrefsNode = proc(col: ImVec4): PrefsNode = col.newPNode()) = 
-  ## Write `style.toString()` to `path`.
-  writeFile(path, style.toString(colorProc))
+proc toString*(style: ImGuiStyle, colorProc: proc(col: ImVec4): PrefsNode = proc(col: ImVec4): PrefsNode = col.newPNode()): string = 
+  ## Return the niprefs representation of `style`.
+  style.toNode(colorProc).toString()
