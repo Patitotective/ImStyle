@@ -104,42 +104,37 @@ window.addEventListener('DOMContentLoaded', main);
       <ul class="simple nested-toc-section">getIgStyle
       <li><a class="reference" href="#getIgStyle%2CPObjectType"
     title="getIgStyle(data: PObjectType): ImGuiStyle">getIgStyle(data: PObjectType): ImGuiStyle</a></li>
-  <li><a class="reference" href="#getIgStyle%2CPrefsNode"
-    title="getIgStyle(data: PrefsNode): ImGuiStyle">getIgStyle(data: PrefsNode): ImGuiStyle</a></li>
-  <li><a class="reference" href="#getIgStyle%2Cstring"
-    title="getIgStyle(path: string): ImGuiStyle">getIgStyle(path: string): ImGuiStyle</a></li>
 
   </ul>
-  <ul class="simple nested-toc-section">newPNode
-      <li><a class="reference" href="#newPNode%2CPrefsNode"
-    title="newPNode(node: PrefsNode): PrefsNode">newPNode(node: PrefsNode): PrefsNode</a></li>
-  <li><a class="reference" href="#newPNode%2CImVec2"
-    title="newPNode(vec: ImVec2): PrefsNode">newPNode(vec: ImVec2): PrefsNode</a></li>
-  <li><a class="reference" href="#newPNode%2CImVec4"
-    title="newPNode(vec: ImVec4): PrefsNode">newPNode(vec: ImVec4): PrefsNode</a></li>
+  <ul class="simple nested-toc-section">niprefsToToml
+      <li><a class="reference" href="#niprefsToToml%2Cstring%2CopenArray%5Bstring%5D%2CopenArray%5Bstring%5D"
+    title="niprefsToToml(path: string; ignoreProps: openArray[string] = [];
+              ignoreColors: openArray[string] = []): TomlValueRef">niprefsToToml(path: string; ignoreProps: openArray[string] = [];
+              ignoreColors: openArray[string] = []): TomlValueRef</a></li>
 
   </ul>
-  <ul class="simple nested-toc-section">setIgStyle
-      <li><a class="reference" href="#setIgStyle%2CPObjectType%2Cptr.ImGuiStyle"
-    title="setIgStyle(data: PObjectType; style: ptr ImGuiStyle = igGetStyle())">setIgStyle(data: PObjectType; style: ptr ImGuiStyle = igGetStyle())</a></li>
-  <li><a class="reference" href="#setIgStyle%2CPrefsNode%2Cptr.ImGuiStyle"
-    title="setIgStyle(data: PrefsNode; style: ptr ImGuiStyle = igGetStyle())">setIgStyle(data: PrefsNode; style: ptr ImGuiStyle = igGetStyle())</a></li>
-  <li><a class="reference" href="#setIgStyle%2Cstring%2Cptr.ImGuiStyle"
-    title="setIgStyle(path: string; style: ptr ImGuiStyle = igGetStyle())">setIgStyle(path: string; style: ptr ImGuiStyle = igGetStyle())</a></li>
+  <ul class="simple nested-toc-section">styleFromToml
+      <li><a class="reference" href="#styleFromToml%2CTomlValueRef%2CopenArray%5Bstring%5D%2CopenArray%5Bstring%5D%2Cproc%28TomlValueRef%29"
+    title="styleFromToml(node: TomlValueRef; ignoreProps: openArray[string] = [];
+              ignoreColors: openArray[string] = [];
+              colorProc: proc (col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle">styleFromToml(node: TomlValueRef; ignoreProps: openArray[string] = [];
+              ignoreColors: openArray[string] = [];
+              colorProc: proc (col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle</a></li>
+  <li><a class="reference" href="#styleFromToml%2Cstring%2CopenArray%5Bstring%5D%2CopenArray%5Bstring%5D%2Cproc%28TomlValueRef%29"
+    title="styleFromToml(path: string; ignoreProps: openArray[string] = [];
+              ignoreColors: openArray[string] = [];
+              colorProc: proc (col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle">styleFromToml(path: string; ignoreProps: openArray[string] = [];
+              ignoreColors: openArray[string] = [];
+              colorProc: proc (col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle</a></li>
 
   </ul>
-  <ul class="simple nested-toc-section">toNode
-      <li><a class="reference" href="#toNode%2CImGuiStyle%2Cproc%28ImVec4%29"
-    title="toNode(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (
-    col: ImVec4): PrefsNode = result = newPNode(col)): PrefsNode">toNode(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (
-    col: ImVec4): PrefsNode = result = newPNode(col)): PrefsNode</a></li>
-
-  </ul>
-  <ul class="simple nested-toc-section">toString
-      <li><a class="reference" href="#toString%2CImGuiStyle%2Cproc%28ImVec4%29"
-    title="toString(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (
-    col: ImVec4): PrefsNode = result = newPNode(col)): string">toString(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (
-    col: ImVec4): PrefsNode = result = newPNode(col)): string</a></li>
+  <ul class="simple nested-toc-section">toToml
+      <li><a class="reference" href="#toToml%2CImGuiStyle%2CopenArray%5Bstring%5D%2CopenArray%5Bstring%5D%2Cproc%28ImVec4%29"
+    title="toToml(style: ImGuiStyle; ignoreProps: openArray[string] = [];
+       ignoreColors: openArray[string] = [];
+       colorProc: proc (col: ImVec4): TomlValueRef = toTArray): TomlValueRef">toToml(style: ImGuiStyle; ignoreProps: openArray[string] = [];
+       ignoreColors: openArray[string] = [];
+       colorProc: proc (col: ImVec4): TomlValueRef = toTArray): TomlValueRef</a></li>
 
   </ul>
 
@@ -157,27 +152,29 @@ class="link-seesrc" target="_blank">Source</a>
   <div class="nine columns" id="content">
   <div id="tocRoot"></div>
   
-  <p class="module-desc"><p>ImStyle is a library that helps you to manage your Dear ImGui application's style. Load the style from a <a class="reference external" href="https://github.com/Patitotective/niprefs">niprefs</a> file rather than hard-coding it into your app. Using ImStyle also allows you to change your app's style without compiling it again (since the style is read from a file).</p>
-<p>Without ImStyle you need to set the style from code:</p>
+  <p class="module-desc"><p>ImStyle is a library that helps you to manage your Dear ImGui application's style. Load the style from a TOML file rather than hard-coding it into your app. Using ImStyle also allows you to change your app's style without compiling it again (since the style is read from a file).</p>
+<p>Without ImStyle you need to set the style in your code:</p>
 <p><pre class="listing"><span class="Keyword">import</span> <span class="Identifier">nimgl</span><span class="Operator">/</span><span class="Identifier">imgui</span>
 <span class="Operator">...</span>
-<span class="Keyword">var</span> <span class="Identifier">style</span> <span class="Operator">=</span> <span class="Identifier">igGetStyle</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+<span class="Keyword">let</span> <span class="Identifier">style</span> <span class="Operator">=</span> <span class="Identifier">igGetStyle</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
 <span class="Identifier">style</span><span class="Operator">.</span><span class="Identifier">alpha</span> <span class="Operator">=</span> <span class="DecNumber">1</span><span class="Identifier">f</span>
 <span class="Identifier">style</span><span class="Operator">.</span><span class="Identifier">windowPadding</span> <span class="Operator">=</span> <span class="Identifier">ImVec2</span><span class="Punctuation">(</span><span class="Identifier">x</span><span class="Punctuation">:</span> <span class="DecNumber">4</span><span class="Identifier">f</span><span class="Punctuation">,</span> <span class="Identifier">y</span><span class="Punctuation">:</span> <span class="DecNumber">4</span><span class="Identifier">f</span><span class="Punctuation">)</span>
 <span class="Identifier">style</span><span class="Operator">.</span><span class="Identifier">windowMenuButtonPosition</span> <span class="Operator">=</span> <span class="Identifier">ImGuiDir</span><span class="Operator">.</span><span class="Identifier">Left</span>
 <span class="Identifier">style</span><span class="Operator">.</span><span class="Identifier">colors</span><span class="Punctuation">[</span><span class="Identifier">ord</span> <span class="Identifier">Text</span><span class="Punctuation">]</span> <span class="Operator">=</span> <span class="Identifier">ImVec4</span><span class="Punctuation">(</span><span class="Identifier">x</span><span class="Punctuation">:</span> <span class="DecNumber">0</span><span class="Identifier">f</span><span class="Punctuation">,</span> <span class="Identifier">y</span><span class="Punctuation">:</span> <span class="DecNumber">0</span><span class="Identifier">f</span><span class="Punctuation">,</span> <span class="Identifier">z</span><span class="Punctuation">:</span> <span class="DecNumber">0</span><span class="Identifier">f</span><span class="Punctuation">,</span> <span class="Identifier">w</span><span class="Punctuation">:</span> <span class="DecNumber">1</span><span class="Identifier">f</span><span class="Punctuation">)</span> <span class="Comment"># RGBA</span>
 <span class="Operator">...</span>
-</pre> Using ImStyle you need to create a <tt class="docutils literal"><span class="pre"><span class="Identifier">niprefs</span></span></tt> file (e.i.: <tt class="docutils literal"><span class="pre"><span class="Identifier">style</span><span class="Operator">.</span><span class="Identifier">niprefs</span></span></tt>), that will look like:</p>
+</pre> Using ImStyle you will only need to create a TOML file (e.i.: <tt class="docutils literal"><span class="pre"><span class="Identifier">style</span><span class="Operator">.</span><span class="Identifier">toml</span></span></tt>), that will look like:</p>
 <p><pre class="listing"><span class="Comment"># ImStyle</span>
-<span class="Identifier">alpha</span> <span class="Operator">=</span> <span class="DecNumber">1</span> <span class="Comment"># -&gt; 1f</span>
-<span class="Identifier">windowPadding</span> <span class="Operator">=</span> <span class="Punctuation">[</span><span class="DecNumber">4</span><span class="Punctuation">,</span> <span class="DecNumber">4</span><span class="Punctuation">]</span> <span class="Comment"># -&gt; ImVec2(x: 4f, y: 4f)</span>
-<span class="Identifier">windowMenuButtonPosition</span> <span class="Operator">=</span> <span class="StringLit">&quot;Left&quot;</span> <span class="Comment"># Or 0</span>
-<span class="Identifier">colors</span><span class="Operator">=&gt;</span>
- <span class="Identifier">Text</span> <span class="Operator">=</span> <span class="StringLit">&quot;#000000&quot;</span> <span class="Comment"># or &quot;rgb(0, 0, 0)&quot; or [0, 0, 0]</span>
+<span class="Identifier">alpha</span> <span class="Operator">=</span> <span class="DecNumber">1</span> <span class="Comment"># -&gt; 1.0</span>
+<span class="Identifier">windowPadding</span> <span class="Operator">=</span> <span class="Punctuation">[</span><span class="DecNumber">4</span><span class="Punctuation">,</span> <span class="DecNumber">4</span><span class="Punctuation">]</span> <span class="Comment"># -&gt; ImVec2(x: 4.0, y: 4.0)</span>
+<span class="Identifier">windowMenuButtonPosition</span> <span class="Operator">=</span> <span class="StringLit">&quot;Left&quot;</span>
+<span class="Operator">...</span>
+<span class="Punctuation">[</span><span class="Identifier">colors</span><span class="Punctuation">]</span>
+<span class="Identifier">Text</span> <span class="Operator">=</span> <span class="StringLit">&quot;#000000&quot;</span> <span class="Comment"># or &quot;rgb(0, 0, 0)&quot; or or &quot;rgba(0, 0, 0, 1)&quot; or [0, 0, 0, 1]</span>
+<span class="Operator">...</span>
 </pre> And load it in your code:</p>
 <p><pre class="listing"><span class="Keyword">import</span> <span class="Identifier">imstyle</span>
 <span class="Operator">...</span>
-<span class="Identifier">setIgStyle</span><span class="Punctuation">(</span><span class="StringLit">&quot;style.niprefs&quot;</span><span class="Punctuation">)</span>
+<span class="Identifier">igGetCurrentContext</span><span class="Punctuation">(</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">style</span> <span class="Operator">=</span> <span class="Identifier">styleFromToml</span><span class="Punctuation">(</span><span class="StringLit">&quot;style.toml&quot;</span><span class="Punctuation">)</span>
 <span class="Operator">...</span>
 </pre></p>
 </p>
@@ -191,140 +188,70 @@ class="link-seesrc" target="_blank">Source</a>
 
 Return the style in <tt class="docutils literal"><span class="pre"><span class="Identifier">data</span></span></tt>.
 &nbsp;&nbsp;<a
-href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L109"
+href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L123"
 class="link-seesrc" target="_blank">Source</a>
-&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L109" class="link-seesrc" target="_blank" >Edit</a>
+&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L123" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 </div>
-<div id="getIgStyle,PrefsNode">
-<dt><pre><span class="Keyword">proc</span> <a href="#getIgStyle%2CPrefsNode"><span class="Identifier">getIgStyle</span></a><span class="Other">(</span><span class="Identifier">data</span><span class="Other">:</span> <span class="Identifier">PrefsNode</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">ImGuiStyle</span> {.
-    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">KeyError</span><span class="Other">,</span> <span class="Identifier">InvalidColor</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-Return the style in <tt class="docutils literal"><span class="pre"><span class="Identifier">data</span></span></tt>.
-&nbsp;&nbsp;<a
-href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L153"
-class="link-seesrc" target="_blank">Source</a>
-&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L153" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-</div>
-<div id="getIgStyle,string">
-<dt><pre><span class="Keyword">proc</span> <a href="#getIgStyle%2Cstring"><span class="Identifier">getIgStyle</span></a><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">ImGuiStyle</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">KeyError</span><span class="Other">,</span>
-    <span class="Identifier">InvalidColor</span><span class="Other">,</span> <span class="Identifier">Exception</span><span class="Other">,</span> <span class="Identifier">SyntaxError</span><span class="Other">,</span> <span class="Identifier">NPegException</span><span class="Other">,</span> <span class="Identifier">IOError</span><span class="Other">]</span><span class="Other">,</span>
-    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">RootEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-Read <tt class="docutils literal"><span class="pre"><span class="Identifier">path</span></span></tt> and return the style.
-&nbsp;&nbsp;<a
-href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L157"
-class="link-seesrc" target="_blank">Source</a>
-&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L157" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-</div>
-<div id="newPNode,PrefsNode">
-<dt><pre><span class="Keyword">proc</span> <a href="#newPNode%2CPrefsNode"><span class="Identifier">newPNode</span></a><span class="Other">(</span><span class="Identifier">node</span><span class="Other">:</span> <span class="Identifier">PrefsNode</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">PrefsNode</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-Helper to trick the toPrefs macro to accept PrefsNode objects.
-&nbsp;&nbsp;<a
-href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L72"
-class="link-seesrc" target="_blank">Source</a>
-&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L72" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-</div>
-<div id="newPNode,ImVec2">
-<dt><pre><span class="Keyword">proc</span> <a href="#newPNode%2CImVec2"><span class="Identifier">newPNode</span></a><span class="Other">(</span><span class="Identifier">vec</span><span class="Other">:</span> <span class="Identifier">ImVec2</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">PrefsNode</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-Helper proc to conver an ImVec2 to a PrefsNode sequence.
-&nbsp;&nbsp;<a
-href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L68"
-class="link-seesrc" target="_blank">Source</a>
-&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L68" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-</div>
-<div id="newPNode,ImVec4">
-<dt><pre><span class="Keyword">proc</span> <a href="#newPNode%2CImVec4"><span class="Identifier">newPNode</span></a><span class="Other">(</span><span class="Identifier">vec</span><span class="Other">:</span> <span class="Identifier">ImVec4</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">PrefsNode</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-Helper proc to conver an ImVec4 to a PrefsNode sequence.
-&nbsp;&nbsp;<a
-href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L64"
-class="link-seesrc" target="_blank">Source</a>
-&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L64" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-</div>
-<div id="setIgStyle,PObjectType,ptr.ImGuiStyle">
-<dt><pre><span class="Keyword">proc</span> <a href="#setIgStyle%2CPObjectType%2Cptr.ImGuiStyle"><span class="Identifier">setIgStyle</span></a><span class="Other">(</span><span class="Identifier">data</span><span class="Other">:</span> <span class="Identifier">PObjectType</span><span class="Other">;</span> <span class="Identifier">style</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">ImGuiStyle</span> <span class="Other">=</span> <span class="Identifier">igGetStyle</span><span class="Other">(</span><span class="Other">)</span><span class="Other">)</span> {.
-    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">KeyError</span><span class="Other">,</span> <span class="Identifier">InvalidColor</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-Set <tt class="docutils literal"><span class="pre"><span class="Identifier">data</span></span></tt> to <tt class="docutils literal"><span class="pre"><span class="Identifier">style</span></span></tt>
-&nbsp;&nbsp;<a
-href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L161"
-class="link-seesrc" target="_blank">Source</a>
-&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L161" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-</div>
-<div id="setIgStyle,PrefsNode,ptr.ImGuiStyle">
-<dt><pre><span class="Keyword">proc</span> <a href="#setIgStyle%2CPrefsNode%2Cptr.ImGuiStyle"><span class="Identifier">setIgStyle</span></a><span class="Other">(</span><span class="Identifier">data</span><span class="Other">:</span> <span class="Identifier">PrefsNode</span><span class="Other">;</span> <span class="Identifier">style</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">ImGuiStyle</span> <span class="Other">=</span> <span class="Identifier">igGetStyle</span><span class="Other">(</span><span class="Other">)</span><span class="Other">)</span> {.
-    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">KeyError</span><span class="Other">,</span> <span class="Identifier">InvalidColor</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-Set <tt class="docutils literal"><span class="pre"><span class="Identifier">data</span></span></tt> to <tt class="docutils literal"><span class="pre"><span class="Identifier">style</span></span></tt>
-&nbsp;&nbsp;<a
-href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L205"
-class="link-seesrc" target="_blank">Source</a>
-&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L205" class="link-seesrc" target="_blank" >Edit</a>
-
-</dd>
-</div>
-<div id="setIgStyle,string,ptr.ImGuiStyle">
-<dt><pre><span class="Keyword">proc</span> <a href="#setIgStyle%2Cstring%2Cptr.ImGuiStyle"><span class="Identifier">setIgStyle</span></a><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">style</span><span class="Other">:</span> <span class="Keyword">ptr</span> <span class="Identifier">ImGuiStyle</span> <span class="Other">=</span> <span class="Identifier">igGetStyle</span><span class="Other">(</span><span class="Other">)</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span>
-    <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">KeyError</span><span class="Other">,</span> <span class="Identifier">InvalidColor</span><span class="Other">,</span> <span class="Identifier">Exception</span><span class="Other">,</span> <span class="Identifier">SyntaxError</span><span class="Other">,</span> <span class="Identifier">NPegException</span><span class="Other">,</span>
+<div id="niprefsToToml,string,openArray[string],openArray[string]">
+<dt><pre><span class="Keyword">proc</span> <a href="#niprefsToToml%2Cstring%2CopenArray%5Bstring%5D%2CopenArray%5Bstring%5D"><span class="Identifier">niprefsToToml</span></a><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">ignoreProps</span><span class="Other">:</span> <span class="Identifier">openArray</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span class="Other">=</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">;</span>
+                   <span class="Identifier">ignoreColors</span><span class="Other">:</span> <span class="Identifier">openArray</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span class="Other">=</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">TomlValueRef</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span>
+    <span class="Identifier">KeyError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">InvalidColor</span><span class="Other">,</span> <span class="Identifier">Exception</span><span class="Other">,</span> <span class="Identifier">SyntaxError</span><span class="Other">,</span> <span class="Identifier">NPegException</span><span class="Other">,</span>
     <span class="Identifier">IOError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">RootEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
-Read <tt class="docutils literal"><span class="pre"><span class="Identifier">path</span></span></tt> and set its content to <tt class="docutils literal"><span class="pre"><span class="Identifier">style</span></span></tt>
+Reads a niprefs file, get its style using <tt class="docutils literal"><span class="pre"><span class="Identifier">getIgStyle</span></span></tt> and conver it to <tt class="docutils literal"><span class="pre"><span class="Identifier">TomlValueRef</span></span></tt> using <tt class="docutils literal"><span class="pre"><span class="Identifier">toToml</span></span></tt>.
 &nbsp;&nbsp;<a
-href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L209"
+href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L231"
 class="link-seesrc" target="_blank">Source</a>
-&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L209" class="link-seesrc" target="_blank" >Edit</a>
+&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L231" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 </div>
-<div id="toNode,ImGuiStyle,proc(ImVec4)">
-<dt><pre><span class="Keyword">proc</span> <a href="#toNode%2CImGuiStyle%2Cproc%28ImVec4%29"><span class="Identifier">toNode</span></a><span class="Other">(</span><span class="Identifier">style</span><span class="Other">:</span> <span class="Identifier">ImGuiStyle</span><span class="Other">;</span> <span class="Identifier">colorProc</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">col</span><span class="Other">:</span> <span class="Identifier">ImVec4</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">PrefsNode</span> <span class="Other">=</span> <span class="Keyword">proc</span> <span class="Other">(</span>
-    <span class="Identifier">col</span><span class="Other">:</span> <span class="Identifier">ImVec4</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">PrefsNode</span> <span class="Other">=</span> <span class="Identifier">result</span> <span class="Other">=</span> <span class="Identifier">newPNode</span><span class="Other">(</span><span class="Identifier">col</span><span class="Other">)</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">PrefsNode</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
-    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<div id="styleFromToml,TomlValueRef,openArray[string],openArray[string],proc(TomlValueRef)">
+<dt><pre><span class="Keyword">proc</span> <a href="#styleFromToml%2CTomlValueRef%2CopenArray%5Bstring%5D%2CopenArray%5Bstring%5D%2Cproc%28TomlValueRef%29"><span class="Identifier">styleFromToml</span></a><span class="Other">(</span><span class="Identifier">node</span><span class="Other">:</span> <span class="Identifier">TomlValueRef</span><span class="Other">;</span> <span class="Identifier">ignoreProps</span><span class="Other">:</span> <span class="Identifier">openArray</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span class="Other">=</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">;</span>
+                   <span class="Identifier">ignoreColors</span><span class="Other">:</span> <span class="Identifier">openArray</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span class="Other">=</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">;</span>
+                   <span class="Identifier">colorProc</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">col</span><span class="Other">:</span> <span class="Identifier">TomlValueRef</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">ImVec4</span> <span class="Other">=</span> <span class="Identifier">colorToVec4</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">ImGuiStyle</span> {.
+    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">KeyError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
-Convert <tt class="docutils literal"><span class="pre"><span class="Identifier">style</span></span></tt> to a PrefsNode. Use <tt class="docutils literal"><span class="pre"><span class="Identifier">colorProc</span></span></tt> to change the color format, for example to write hex using chroma: <tt class="docutils literal"><span class="pre"><span class="Keyword">proc</span><span class="Punctuation">(</span><span class="Identifier">col</span><span class="Punctuation">:</span> <span class="Identifier">ImVec4</span><span class="Punctuation">)</span><span class="Punctuation">:</span> <span class="Identifier">PrefsNode</span> <span class="Operator">=</span> <span class="Identifier">color</span><span class="Punctuation">(</span><span class="Identifier">col</span><span class="Operator">.</span><span class="Identifier">x</span><span class="Punctuation">,</span> <span class="Identifier">col</span><span class="Operator">.</span><span class="Identifier">y</span><span class="Punctuation">,</span> <span class="Identifier">col</span><span class="Operator">.</span><span class="Identifier">z</span><span class="Punctuation">,</span> <span class="Identifier">col</span><span class="Operator">.</span><span class="Identifier">w</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">toHex</span><span class="Punctuation">(</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">newPNode</span><span class="Punctuation">(</span><span class="Punctuation">)</span></span></tt>.
+Load ImGuiStyle from <tt class="docutils literal"><span class="pre"><span class="Identifier">node</span></span></tt>. Properties in <tt class="docutils literal"><span class="pre"><span class="Identifier">ignoreProps</span></span></tt> are ignored. Colors in <tt class="docutils literal"><span class="pre"><span class="Identifier">ignoreColors</span></span></tt> are ignored. <tt class="docutils literal"><span class="pre"><span class="Identifier">colorProc</span></span></tt> is used to convert colors from <tt class="docutils literal"><span class="pre"><span class="Identifier">TomlValueRef</span></span></tt> to <tt class="docutils literal"><span class="pre"><span class="Identifier">ImVec4</span></span></tt>.
 &nbsp;&nbsp;<a
-href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L213"
+href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L187"
 class="link-seesrc" target="_blank">Source</a>
-&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L213" class="link-seesrc" target="_blank" >Edit</a>
+&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L187" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 </div>
-<div id="toString,ImGuiStyle,proc(ImVec4)">
-<dt><pre><span class="Keyword">proc</span> <a href="#toString%2CImGuiStyle%2Cproc%28ImVec4%29"><span class="Identifier">toString</span></a><span class="Other">(</span><span class="Identifier">style</span><span class="Other">:</span> <span class="Identifier">ImGuiStyle</span><span class="Other">;</span> <span class="Identifier">colorProc</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">col</span><span class="Other">:</span> <span class="Identifier">ImVec4</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">PrefsNode</span> <span class="Other">=</span> <span class="Keyword">proc</span> <span class="Other">(</span>
-    <span class="Identifier">col</span><span class="Other">:</span> <span class="Identifier">ImVec4</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">PrefsNode</span> <span class="Other">=</span> <span class="Identifier">result</span> <span class="Other">=</span> <span class="Identifier">newPNode</span><span class="Other">(</span><span class="Identifier">col</span><span class="Other">)</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> {.
-    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">InvalidKey</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<div id="styleFromToml,string,openArray[string],openArray[string],proc(TomlValueRef)">
+<dt><pre><span class="Keyword">proc</span> <a href="#styleFromToml%2Cstring%2CopenArray%5Bstring%5D%2CopenArray%5Bstring%5D%2Cproc%28TomlValueRef%29"><span class="Identifier">styleFromToml</span></a><span class="Other">(</span><span class="Identifier">path</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">ignoreProps</span><span class="Other">:</span> <span class="Identifier">openArray</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span class="Other">=</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">;</span>
+                   <span class="Identifier">ignoreColors</span><span class="Other">:</span> <span class="Identifier">openArray</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span class="Other">=</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">;</span>
+                   <span class="Identifier">colorProc</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">col</span><span class="Other">:</span> <span class="Identifier">TomlValueRef</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">ImVec4</span> <span class="Other">=</span> <span class="Identifier">colorToVec4</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">ImGuiStyle</span> {.
+    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">KeyError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">IOError</span><span class="Other">,</span> <span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">Exception</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">RootEffect</span><span class="Other">,</span> <span class="Identifier">WriteIOEffect</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
-Return the niprefs representation of <tt class="docutils literal"><span class="pre"><span class="Identifier">style</span></span></tt>.
+Load <tt class="docutils literal"><span class="pre"><span class="Identifier">ImGuiStyle</span></span></tt> from the toml file at <tt class="docutils literal"><span class="pre"><span class="Identifier">path</span></span></tt>.
 &nbsp;&nbsp;<a
-href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L314"
+href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L227"
 class="link-seesrc" target="_blank">Source</a>
-&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L314" class="link-seesrc" target="_blank" >Edit</a>
+&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L227" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+</div>
+<div id="toToml,ImGuiStyle,openArray[string],openArray[string],proc(ImVec4)">
+<dt><pre><span class="Keyword">proc</span> <a href="#toToml%2CImGuiStyle%2CopenArray%5Bstring%5D%2CopenArray%5Bstring%5D%2Cproc%28ImVec4%29"><span class="Identifier">toToml</span></a><span class="Other">(</span><span class="Identifier">style</span><span class="Other">:</span> <span class="Identifier">ImGuiStyle</span><span class="Other">;</span> <span class="Identifier">ignoreProps</span><span class="Other">:</span> <span class="Identifier">openArray</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span class="Other">=</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">;</span>
+            <span class="Identifier">ignoreColors</span><span class="Other">:</span> <span class="Identifier">openArray</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span class="Other">=</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">;</span>
+            <span class="Identifier">colorProc</span><span class="Other">:</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">col</span><span class="Other">:</span> <span class="Identifier">ImVec4</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">TomlValueRef</span> <span class="Other">=</span> <span class="Identifier">toTArray</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">TomlValueRef</span> {.
+    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">KeyError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dd>
+
+Convert <tt class="docutils literal"><span class="pre"><span class="Identifier">style</span></span></tt> into <tt class="docutils literal"><span class="pre"><span class="Identifier">TomlValueRef</span></span></tt>. Properties in <tt class="docutils literal"><span class="pre"><span class="Identifier">ignoreProps</span></span></tt> are ignored. Colors in <tt class="docutils literal"><span class="pre"><span class="Identifier">ignoreColors</span></span></tt> are ignored. <tt class="docutils literal"><span class="pre"><span class="Identifier">colorProc</span></span></tt> is used to convert colors from <tt class="docutils literal"><span class="pre"><span class="Identifier">ImVec4</span></span></tt> to <tt class="docutils literal"><span class="pre"><span class="Identifier">TomlValueRef</span></span></tt>.
+&nbsp;&nbsp;<a
+href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L167"
+class="link-seesrc" target="_blank">Source</a>
+&nbsp;&nbsp;<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L167" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 </div>
@@ -338,7 +265,7 @@ class="link-seesrc" target="_blank">Source</a>
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-06-05 14:03:58 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-06-08 15:22:09 UTC</small>
       </div>
     </div>
   </div>

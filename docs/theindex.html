@@ -74,45 +74,41 @@ window.addEventListener('DOMContentLoaded', main);
 <dl><dt><a name="getIgStyle" href="#getIgStyle"><span>getIgStyle:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="imstyle: getIgStyle(data: PObjectType): ImGuiStyle" href="imstyle.html#getIgStyle%2CPObjectType">imstyle: getIgStyle(data: PObjectType): ImGuiStyle</a></li>
-          <li><a class="reference external"
-          data-doc-search-tag="imstyle: getIgStyle(data: PrefsNode): ImGuiStyle" href="imstyle.html#getIgStyle%2CPrefsNode">imstyle: getIgStyle(data: PrefsNode): ImGuiStyle</a></li>
-          <li><a class="reference external"
-          data-doc-search-tag="imstyle: getIgStyle(path: string): ImGuiStyle" href="imstyle.html#getIgStyle%2Cstring">imstyle: getIgStyle(path: string): ImGuiStyle</a></li>
           </ul></dd>
-<dt><a name="newPNode" href="#newPNode"><span>newPNode:</span></a></dt><dd><ul class="simple">
+<dt><a name="niprefsToToml" href="#niprefsToToml"><span>niprefsToToml:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="imstyle: newPNode(vec: ImVec2): PrefsNode" href="imstyle.html#newPNode%2CImVec2">imstyle: newPNode(vec: ImVec2): PrefsNode</a></li>
-          <li><a class="reference external"
-          data-doc-search-tag="imstyle: newPNode(vec: ImVec4): PrefsNode" href="imstyle.html#newPNode%2CImVec4">imstyle: newPNode(vec: ImVec4): PrefsNode</a></li>
-          <li><a class="reference external"
-          data-doc-search-tag="imstyle: newPNode(node: PrefsNode): PrefsNode" href="imstyle.html#newPNode%2CPrefsNode">imstyle: newPNode(node: PrefsNode): PrefsNode</a></li>
+          data-doc-search-tag="imstyle: niprefsToToml(path: string; ignoreProps: openArray[string] = [];
+              ignoreColors: openArray[string] = []): TomlValueRef" href="imstyle.html#niprefsToToml%2Cstring%2CopenArray%5Bstring%5D%2CopenArray%5Bstring%5D">imstyle: niprefsToToml(path: string; ignoreProps: openArray[string] = [];
+              ignoreColors: openArray[string] = []): TomlValueRef</a></li>
           </ul></dd>
-<dt><a name="setIgStyle" href="#setIgStyle"><span>setIgStyle:</span></a></dt><dd><ul class="simple">
+<dt><a name="styleFromToml" href="#styleFromToml"><span>styleFromToml:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="imstyle: setIgStyle(data: PObjectType; style: ptr ImGuiStyle = igGetStyle())" href="imstyle.html#setIgStyle%2CPObjectType%2Cptr.ImGuiStyle">imstyle: setIgStyle(data: PObjectType; style: ptr ImGuiStyle = igGetStyle())</a></li>
+          data-doc-search-tag="imstyle: styleFromToml(path: string; ignoreProps: openArray[string] = [];
+              ignoreColors: openArray[string] = [];
+              colorProc: proc (col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle" href="imstyle.html#styleFromToml%2Cstring%2CopenArray%5Bstring%5D%2CopenArray%5Bstring%5D%2Cproc%28TomlValueRef%29">imstyle: styleFromToml(path: string; ignoreProps: openArray[string] = [];
+              ignoreColors: openArray[string] = [];
+              colorProc: proc (col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="imstyle: setIgStyle(data: PrefsNode; style: ptr ImGuiStyle = igGetStyle())" href="imstyle.html#setIgStyle%2CPrefsNode%2Cptr.ImGuiStyle">imstyle: setIgStyle(data: PrefsNode; style: ptr ImGuiStyle = igGetStyle())</a></li>
-          <li><a class="reference external"
-          data-doc-search-tag="imstyle: setIgStyle(path: string; style: ptr ImGuiStyle = igGetStyle())" href="imstyle.html#setIgStyle%2Cstring%2Cptr.ImGuiStyle">imstyle: setIgStyle(path: string; style: ptr ImGuiStyle = igGetStyle())</a></li>
+          data-doc-search-tag="imstyle: styleFromToml(node: TomlValueRef; ignoreProps: openArray[string] = [];
+              ignoreColors: openArray[string] = [];
+              colorProc: proc (col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle" href="imstyle.html#styleFromToml%2CTomlValueRef%2CopenArray%5Bstring%5D%2CopenArray%5Bstring%5D%2Cproc%28TomlValueRef%29">imstyle: styleFromToml(node: TomlValueRef; ignoreProps: openArray[string] = [];
+              ignoreColors: openArray[string] = [];
+              colorProc: proc (col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle</a></li>
           </ul></dd>
-<dt><a name="toNode" href="#toNode"><span>toNode:</span></a></dt><dd><ul class="simple">
+<dt><a name="toToml" href="#toToml"><span>toToml:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="imstyle: toNode(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (
-    col: ImVec4): PrefsNode = result = newPNode(col)): PrefsNode" href="imstyle.html#toNode%2CImGuiStyle%2Cproc%28ImVec4%29">imstyle: toNode(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (
-    col: ImVec4): PrefsNode = result = newPNode(col)): PrefsNode</a></li>
-          </ul></dd>
-<dt><a name="toString" href="#toString"><span>toString:</span></a></dt><dd><ul class="simple">
-<li><a class="reference external"
-          data-doc-search-tag="imstyle: toString(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (
-    col: ImVec4): PrefsNode = result = newPNode(col)): string" href="imstyle.html#toString%2CImGuiStyle%2Cproc%28ImVec4%29">imstyle: toString(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (
-    col: ImVec4): PrefsNode = result = newPNode(col)): string</a></li>
+          data-doc-search-tag="imstyle: toToml(style: ImGuiStyle; ignoreProps: openArray[string] = [];
+       ignoreColors: openArray[string] = [];
+       colorProc: proc (col: ImVec4): TomlValueRef = toTArray): TomlValueRef" href="imstyle.html#toToml%2CImGuiStyle%2CopenArray%5Bstring%5D%2CopenArray%5Bstring%5D%2Cproc%28ImVec4%29">imstyle: toToml(style: ImGuiStyle; ignoreProps: openArray[string] = [];
+       ignoreColors: openArray[string] = [];
+       colorProc: proc (col: ImVec4): TomlValueRef = toTArray): TomlValueRef</a></li>
           </ul></dd>
 </dl>
     <div class="row">
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-06-05 14:03:58 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-06-08 15:22:09 UTC</small>
       </div>
     </div>
   </div>

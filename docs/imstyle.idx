@@ -1,11 +1,5 @@
-newPNode	imstyle.html#newPNode,ImVec4	imstyle: newPNode(vec: ImVec4): PrefsNode	
-newPNode	imstyle.html#newPNode,ImVec2	imstyle: newPNode(vec: ImVec2): PrefsNode	
-newPNode	imstyle.html#newPNode,PrefsNode	imstyle: newPNode(node: PrefsNode): PrefsNode	
 getIgStyle	imstyle.html#getIgStyle,PObjectType	imstyle: getIgStyle(data: PObjectType): ImGuiStyle	
-getIgStyle	imstyle.html#getIgStyle,PrefsNode	imstyle: getIgStyle(data: PrefsNode): ImGuiStyle	
-getIgStyle	imstyle.html#getIgStyle,string	imstyle: getIgStyle(path: string): ImGuiStyle	
-setIgStyle	imstyle.html#setIgStyle,PObjectType,ptr.ImGuiStyle	imstyle: setIgStyle(data: PObjectType; style: ptr ImGuiStyle = igGetStyle())	
-setIgStyle	imstyle.html#setIgStyle,PrefsNode,ptr.ImGuiStyle	imstyle: setIgStyle(data: PrefsNode; style: ptr ImGuiStyle = igGetStyle())	
-setIgStyle	imstyle.html#setIgStyle,string,ptr.ImGuiStyle	imstyle: setIgStyle(path: string; style: ptr ImGuiStyle = igGetStyle())	
-toNode	imstyle.html#toNode,ImGuiStyle,proc(ImVec4)	imstyle: toNode(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (\n    col: ImVec4): PrefsNode = result = newPNode(col)): PrefsNode	
-toString	imstyle.html#toString,ImGuiStyle,proc(ImVec4)	imstyle: toString(style: ImGuiStyle; colorProc: proc (col: ImVec4): PrefsNode = proc (\n    col: ImVec4): PrefsNode = result = newPNode(col)): string	
+toToml	imstyle.html#toToml,ImGuiStyle,openArray[string],openArray[string],proc(ImVec4)	imstyle: toToml(style: ImGuiStyle; ignoreProps: openArray[string] = [];\n       ignoreColors: openArray[string] = [];\n       colorProc: proc (col: ImVec4): TomlValueRef = toTArray): TomlValueRef	
+styleFromToml	imstyle.html#styleFromToml,TomlValueRef,openArray[string],openArray[string],proc(TomlValueRef)	imstyle: styleFromToml(node: TomlValueRef; ignoreProps: openArray[string] = [];\n              ignoreColors: openArray[string] = [];\n              colorProc: proc (col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle	
+styleFromToml	imstyle.html#styleFromToml,string,openArray[string],openArray[string],proc(TomlValueRef)	imstyle: styleFromToml(path: string; ignoreProps: openArray[string] = [];\n              ignoreColors: openArray[string] = [];\n              colorProc: proc (col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle	
+niprefsToToml	imstyle.html#niprefsToToml,string,openArray[string],openArray[string]	imstyle: niprefsToToml(path: string; ignoreProps: openArray[string] = [];\n              ignoreColors: openArray[string] = []): TomlValueRef	
