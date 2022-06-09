@@ -32,12 +32,18 @@
 ## ...
 ## ```
 
-import std/[strformat, strutils]
+import std/[strformat, strutils, macros]
 import chroma
 import niprefs
 import nimgl/imgui
 
-export niprefs
+export niprefs, imgui
+
+const defaultIgnoreProps = ["touchExtraPadding", "logSliderDeadzone", "displayWindowPadding", "displaySafeAreaPadding", "mouseCursorScale", "curveTessellationTol", "circleTessellationMaxError"]
+
+macro setField*(obj: typed, field: static string, val: untyped): untyped = 
+  expectKind(obj, nnkSym)
+  newTree(nnkAsgn, newTree(nnkDotExpr, obj, newIdentNode(field)), val)
 
 proc igVec2(x, y: float32): ImVec2 = ImVec2(x: x, y: y)
 
@@ -70,7 +76,7 @@ proc colorToVec4(col: TomlValueRef): ImVec4 =
   else:
     raise newException(ValueError, &"Got {col.kind} for {col} expected array or string")
 
-proc styleToToml*(style: ImGuiStyle, ignoreProps: openArray[string] = [], ignoreColors: openArray[string] = [], colorProc: proc(col: ImVec4): TomlValueRef = toTArray): TomlValueRef = 
+proc styleToToml*(style: ImGuiStyle, ignoreProps: openArray[string] = defaultIgnoreProps, ignoreColors: openArray[string] = [], colorProc: proc(col: ImVec4): TomlValueRef = toTArray): TomlValueRef = 
   ## Convert `style` into `TomlValueRef`.  
   ## Properties in `ignoreProps` are ignored.  
   ## Colors in `ignoreColors` are ignored.  
@@ -90,7 +96,7 @@ proc styleToToml*(style: ImGuiStyle, ignoreProps: openArray[string] = [], ignore
     if $col notin ignoreColors:
       result["colors"][$col] = style.colors[ord col].colorProc()
 
-proc styleFromToml*(node: TomlValueRef, ignoreProps: openArray[string] = [], ignoreColors: openArray[string] = [], colorProc: proc(col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle = 
+proc styleFromToml*(node: TomlValueRef, ignoreProps: openArray[string] = defaultIgnoreProps, ignoreColors: openArray[string] = [], colorProc: proc(col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle = 
   ## Load ImGuiStyle from `node`.  
   ## Properties in `ignoreProps` are ignored.  
   ## Colors in `ignoreColors` are ignored.  
@@ -130,6 +136,13 @@ proc styleFromToml*(node: TomlValueRef, ignoreProps: openArray[string] = [], ign
         let colorNode = node["colors"][$col]
         result.colors[ord col] = colorNode.colorProc()
 
-proc styleFromToml*(path: string, ignoreProps: openArray[string] = [], ignoreColors: openArray[string] = [], colorProc: proc(col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle = 
+proc styleFromToml*(path: string, ignoreProps: openArray[string] = defaultIgnoreProps, ignoreColors: openArray[string] = [], colorProc: proc(col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle = 
   ## Load `ImGuiStyle` from the toml file at `path`.
   styleFromToml(Toml.loadFile(path, TomlValueRef), ignoreProps, ignoreColors, colorProc)
+
+proc setStyleFromToml*(node: TomlValueRef, ignoreProps: openArray[string] = defaultIgnoreProps, ignoreColors: openArray[string] = [], colorProc: proc(col: TomlValueRef): ImVec4 = colorToVec4) =
+  let tomlStyle = node.styleFromToml(ignoreProps, ignoreColors, colorProc)
+  let style = igGetStyle()
+  for name, field in tomlStyle.fieldPairs:
+    if name notin ignoreProps:
+      style.setField(name, field)
