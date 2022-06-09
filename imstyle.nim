@@ -228,6 +228,6 @@ proc styleFromToml*(path: string, ignoreProps: openArray[string] = [], ignoreCol
   ## Load `ImGuiStyle` from the toml file at `path`.
   styleFromToml(parsetoml.parseFile(path), ignoreProps, ignoreColors, colorProc)
 
-proc niprefsToToml*(path: string, ignoreProps: openArray[string] = [], ignoreColors: openArray[string] = []): TomlValueRef = 
+proc niprefsToToml*(path: string, ignoreProps: openArray[string] = [], ignoreColors: openArray[string] = [], colorProc: proc(col: ImVec4): TomlValueRef = toTArray): TomlValueRef = 
   ## Reads a niprefs file, get its style using `getIgStyle` and conver it to `TomlValueRef` using `toToml`.
-  readPrefs(path).getIgStyle().toToml(ignoreProps, ignoreColors)
+  readPrefs(path).getIgStyle().toToml(ignoreProps, ignoreColors, colorProc)
