@@ -39,7 +39,7 @@ import nimgl/imgui
 
 export niprefs, imgui
 
-const defaultIgnoreProps = ["touchExtraPadding", "logSliderDeadzone", "displayWindowPadding", "displaySafeAreaPadding", "mouseCursorScale", "curveTessellationTol", "circleTessellationMaxError"]
+const defaultIgnoreProps = ["touchExtraPadding", "logSliderDeadzone", "displayWindowPadding", "displaySafeAreaPadding", "mouseCursorScale", "antiAliasedLines", "antiAliasedFill", "antiAliasedLinesUseTex", "curveTessellationTol", "circleTessellationMaxError"]
 
 macro setField*(obj: typed, field: static string, val: untyped): untyped = 
   expectKind(obj, nnkSym)
@@ -134,6 +134,8 @@ proc styleToToml*(style: ImGuiStyle, ignoreProps: openArray[string] = defaultIgn
         result[name] = field.toTArray()
       elif field is ImGuiDir:
         result[name] = newTString($field)
+      elif field is bool:
+        result[name] = newTBool(field)
 
   result["colors"] = newTTable()
   for col in ImGuiCol:
@@ -145,6 +147,7 @@ proc styleFromToml*(node: TomlValueRef, ignoreProps: openArray[string] = default
   ## Properties in `ignoreProps` are ignored.  
   ## Colors in `ignoreColors` are ignored.  
   ## `colorProc` is used to convert colors from `TomlValueRef` to `ImVec4`.
+  assert node.kind == TomlKind.Table
 
   result = newImGuiStyle()
 
@@ -173,6 +176,11 @@ proc styleFromToml*(node: TomlValueRef, ignoreProps: openArray[string] = default
           result.setField(name, parseEnum[ImGuiDir](node[name].getString()))
         else:
           raise newException(ValueError, "Got " & $node[name].kind & " for " & name & " expected " & $typeof(field))
+      of TomlKind.Bool:
+        when field is bool:
+          result.setField(name, node[name].getBool())
+        else:
+          raise newException(ValueError, "Got " & $node[name].kind & " for " & name & " expected " & $typeof(field))
       else:
         raise newException(ValueError, "Got " & $node[name].kind & " for " & name & " expected " & $typeof(field))
 
@@ -192,3 +200,7 @@ proc setStyleFromToml*(node: TomlValueRef, ignoreProps: openArray[string] = defa
   for name, field in tomlStyle.fieldPairs:
     if name notin ignoreProps:
       style.setField(name, field)
+
+proc setStyleFromToml*(path: string, ignoreProps: openArray[string] = defaultIgnoreProps, ignoreColors: openArray[string] = [], colorProc: proc(col: TomlValueRef): ImVec4 = colorToVec4) =
+  setStyleFromToml(Toml.loadFile(path, TomlValueRef), ignoreProps, ignoreColors, colorProc)
+
