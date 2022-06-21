@@ -3,7 +3,7 @@ A nice way to manage your ImGui application's style.
 
 ## Installation
 ```
-nimble install https://github.com/Patitotective/ImStyle
+nimble install imstyle
 ```
 
 ## Usage
