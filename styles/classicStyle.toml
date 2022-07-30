@@ -1,11 +1,11 @@
-alpha = 1.0                                             
-disabledAlpha = 0.6000000238418579      
-windowPadding = [8.0, 8.0]                                      
-windowRounding = 0.0                                         
-windowBorderSize = 1.0                                      
+alpha = 1.0
+disabledAlpha = 0.6000000238418579
+windowPadding = [8.0, 8.0]
+windowRounding = 0.0
+windowBorderSize = 1.0
 windowMinSize = [32.0, 32.0]
 windowTitleAlign = [0.0, 0.5]
-windowMenuButtonPosition = "Left"                                       
+windowMenuButtonPosition = "Left"
 childRounding = 0.0
 childBorderSize = 1.0
 popupRounding = 0.0

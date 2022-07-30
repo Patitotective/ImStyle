@@ -9,7 +9,7 @@ nimble install https://github.com/Patitotective/ImStyle
 ## Usage
 Normally you would do this to change your application's style:
 ```nim
-import nimgl/imgui
+import imgui
 ...
 let style = igGetStyle()
 style.alpha = 1f
@@ -43,6 +43,7 @@ Read more at the [docs](https://patitotective.github.io/ImStyle).
 
 ## Styles
 For style examples look at [styles/](https://github.com/Patitotective/ImStyle/tree/main/styles).  
+Or at [ImThemes](https://github.com/Patitotective/ImThemes), a theme manager and editor that supports ImStyle!
 (Make a PR if you want to add your own).
 
 ## Fields Description

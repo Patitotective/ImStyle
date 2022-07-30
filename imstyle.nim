@@ -35,7 +35,7 @@
 import std/[strformat, strutils, macros]
 import chroma
 import niprefs
-import nimgl/imgui
+import imgui
 
 export niprefs, imgui
 
