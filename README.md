@@ -9,7 +9,7 @@ nimble install imstyle
 ## Usage
 Normally you would do this to change your application's style:
 ```nim
-import imgui
+import nimgl/imgui
 ...
 let style = igGetStyle()
 style.alpha = 1f
