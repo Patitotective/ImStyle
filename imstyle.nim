@@ -37,8 +37,6 @@ import chroma
 import niprefs
 import nimgl/imgui
 
-export niprefs, imgui
-
 const defaultIgnoreProps = ["touchExtraPadding", "logSliderDeadzone", "displayWindowPadding", "displaySafeAreaPadding", "mouseCursorScale", "antiAliasedLines", "antiAliasedFill", "antiAliasedLinesUseTex", "curveTessellationTol", "circleTessellationMaxError"]
 
 macro setField*(obj: typed, field: static string, val: untyped): untyped = 
