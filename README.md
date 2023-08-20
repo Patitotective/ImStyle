@@ -18,33 +18,33 @@ style.windowMenuButtonPosition = ImGuiDir.Left
 style.colors[ord ImGuiCol.Text] = ImVec4(x: 0f, y: 0f, z: 0f, w: 1f) # RGBA
 ...
 ```
-But with _ImStyle_ you wil just create a `style.toml`:
-```nim
+But with _ImStyle_ you wil just create a `style.kdl`:
+```kdl
 # ImStyle
-alpha = 1 # -> 1.0
-windowPadding = [4, 4] # -> ImVec2(x: 4.0, y: 4.0) 
-windowMenuButtonPosition = "Left"
+alpha 1 # -> 1.0
+windowPadding 4 4 # -> ImVec2(x: 4.0, y: 4.0) 
+windowMenuButtonPosition "Left" # ImGuiDir.Left
 ...
-[colors]
-Text = "#000000" # or "rgb(0, 0, 0)" or or "rgba(0, 0, 0, 1)" or [0, 0, 0, 1]
-...
+colors {
+  Text 0 0 0 1 # -> ImVec4(x: 0f, y: 0f, z: 0f, w: 1f)
+  ...
+}
 ```
 
 Then read and set the style like this:
 ```nim
 import imstyle
 ...
-igGetCurrentContext().style = styleFromToml("style.toml")
+parseKdlFile("style.kdl").loadStyle().setCurrent()
 ...
 ```
-With _ImStyle_ it's way more clear and **you don't need to compile your application again each time you change its style**.  
+With _ImStyle_ it's way more clear and **you don't need to compile your application again each time you change its style**. 
 
 Read more at the [docs](https://patitotective.github.io/ImStyle).
 
 ## Styles
 For style examples look at [styles/](https://github.com/Patitotective/ImStyle/tree/main/styles).  
 Or at [ImThemes](https://github.com/Patitotective/ImThemes), a theme manager and editor that supports ImStyle!
-(Make a PR if you want to add your own).
 
 ## Fields Description
 Fields of [`ImGuiStyle`](https://nimgl.dev/docs/imgui.html#ImGuiStyle):
@@ -91,6 +91,9 @@ Fields of [`ImGuiStyle`](https://nimgl.dev/docs/imgui.html#ImGuiStyle):
 - `Colors`: See [ImGuiCol](https://nimgl.dev/docs/imgui.html#ImGuiCol).
 
 (Taken from [ocornut/imgui](https://github.com/ocornut/imgui/blob/master/imgui.h#L1837)).
+
+## TODO
+- Implement custom style properties and colors
 
 ## About
 - Docs: https://patitotective.github.io/ImStyle.
