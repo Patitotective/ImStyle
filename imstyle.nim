@@ -13,68 +13,67 @@
 ## style.colors[ord Text] = ImVec4(x: 0f, y: 0f, z: 0f, w: 1f) # RGBA
 ## ...
 ## ```
-## Using ImStyle you will only need to create a TOML file (e.i.: `style.toml`), that will look like:
-## ```nim
+## Using ImStyle you will only need to create a KDL file (e.i.: `style.kdl`), that will look like:
+## ```kdl
 ## # ImStyle
-## alpha = 1 # -> 1.0
-## windowPadding = [4, 4] # -> ImVec2(x: 4.0, y: 4.0) 
-## windowMenuButtonPosition = "Left"
+## alpha 1 # -> 1.0
+## windowPadding 4 4 # -> ImVec2(x: 4.0, y: 4.0) 
+## windowMenuButtonPosition "Left" # ImGuiDir.Left
 ## ...
-## [colors]
-## Text = "#000000" # or "rgb(0, 0, 0)" or or "rgba(0, 0, 0, 1)" or [0, 0, 0, 1]
-## ...
+## colors {
+##   Text 0 0 0 1 # -> ImVec4(x: 0f, y: 0f, z: 0f, w: 1f)
+##   ...
+## }
 ## ```
 ## And load it in your code:
 ## ```nim
 ## import imstyle
 ## ...
-## igGetCurrentContext().style = styleFromToml("style.toml")
+## parseKdlFile("style.kdl").loadStyle().setCurrent()
 ## ...
 ## ```
 
 import std/[strformat, strutils, macros]
-import chroma
-import niprefs
+import kdl
 import nimgl/imgui
 
-const defaultIgnoreProps = ["touchExtraPadding", "logSliderDeadzone", "displayWindowPadding", "displaySafeAreaPadding", "mouseCursorScale", "antiAliasedLines", "antiAliasedFill", "antiAliasedLinesUseTex", "curveTessellationTol", "circleTessellationMaxError"]
+export kdl
 
-macro setField*(obj: typed, field: static string, val: untyped): untyped = 
-  expectKind(obj, nnkSym)
-  newTree(nnkAsgn, newTree(nnkDotExpr, obj, newIdentNode(field)), val)
+type
+  ImStyleError* = object of CatchableError
+
+  # PropKind* = enum
+  #   pkFloat, pkVec, pkDir, pkBool
+
+  # Prop* = object
+  #   case kind*: PropKind
+  #   of pkFloat:
+  #     floatV*: float32
+  #   of pkVec:
+  #     vecV*: ImVec2
+  #   of pkDir:
+  #     dirV*: ImGuiDir
+  #   of pkBool:
+  #     boolV*: bool
+
+  # ImStyle = object
+  #   style*: ImGuiStyle
+  #   customProps*: Table[string, Prop]
+  #   customColors*: Table[string, ImVec4]
+
+template fail(msg: string) = 
+  raise newException(ImStyleError, msg)
+
+template check(cond: untyped, msg = "") = 
+  if not cond:
+    let txt = msg
+    fail astToStr(cond) & " failed" & (if txt.len > 0: ": " & txt else: "")
 
 proc igVec2(x, y: float32): ImVec2 = ImVec2(x: x, y: y)
 
-proc igVec4(color: Color): ImVec4 = 
-  ImVec4(x: color.r, y: color.g, z: color.b, w: color.a)
-
 proc igVec4(x, y, z, w: float32): ImVec4 = ImVec4(x: x, y: y, z: z, w: w)
 
-proc toTArray(vec: ImVec4): TomlValueRef = 
-  result = newTArray()
-  result.add vec.x.newTFLoat()
-  result.add vec.y.newTFLoat()
-  result.add vec.z.newTFLoat()
-  result.add vec.w.newTFLoat()
-
-proc toTArray(vec: ImVec2): TomlValueRef = 
-  result = newTArray()
-  result.add vec.x.newTFLoat()
-  result.add vec.y.newTFLoat()
-
-proc colorToVec4(col: TomlValueRef): ImVec4 = 
-  case col.kind
-  of TomlKind.Array:
-    assert col.len == 4, &"{col} has to have lenght 4"
-    assert col[0].kind == TomlKind.Float, &"{col} has to be an array of floats"
-
-    result = igVec4(col[0].getFloat(), col[1].getFloat(), col[2].getFloat(), col[3].getFloat())
-  of TomlKind.String:
-    result = col.getString().parseHtmlColor().igVec4()
-  else:
-    raise newException(ValueError, &"Got {col.kind} for {col} expected array or string")
-
-proc newImGuiStyle*(): ImGuiStyle = 
+proc initImGuiStyle*(): ImGuiStyle = 
   result.alpha = 1.0f # Global alpha applies to everything in Dear ImGui.
   result.disabledAlpha = 0.60f # Additional alpha multiplier applied by BeginDisabled(). Multiply over current value of Alpha.
   result.windowPadding = igVec2(8, 8) # Padding within a window
@@ -118,87 +117,60 @@ proc newImGuiStyle*(): ImGuiStyle =
 
   igStyleColorsDark(result.addr)
 
-proc styleToToml*(style: ImGuiStyle, ignoreProps: openArray[string] = defaultIgnoreProps, ignoreColors: openArray[string] = [], colorProc: proc(col: ImVec4): TomlValueRef = toTArray): TomlValueRef = 
-  ## Convert `style` into `TomlValueRef`.  
-  ## Properties in `ignoreProps` are ignored.  
-  ## Colors in `ignoreColors` are ignored.  
-  ## `colorProc` is used to convert colors from `ImVec4` to `TomlValueRef`.
-  result = newTTable()
-  for name, field in style.fieldPairs:
-    if name notin ignoreProps:
-      when field is float32:
-        result[name] = field.newTFLoat()
-      elif field is ImVec2:
-        result[name] = field.toTArray()
-      elif field is ImGuiDir:
-        result[name] = newTString($field)
-      elif field is bool:
-        result[name] = newTBool(field)
+proc newHook*(v: var ImGuiStyle) = 
+  v = initImGuiStyle()
 
-  result["colors"] = newTTable()
-  for col in ImGuiCol:
-    if $col notin ignoreColors:
-      result["colors"][$col] = style.colors[ord col].colorProc()
+proc encodeHook*(a: ImVec2, v: var KdlNode, name: string) = 
+  v = initKNode(name, args = toKdlArgs(a.x, a.y))
 
-proc styleFromToml*(node: TomlValueRef, ignoreProps: openArray[string] = defaultIgnoreProps, ignoreColors: openArray[string] = [], colorProc: proc(col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle = 
-  ## Load ImGuiStyle from `node`.  
-  ## Properties in `ignoreProps` are ignored.  
-  ## Colors in `ignoreColors` are ignored.  
-  ## `colorProc` is used to convert colors from `TomlValueRef` to `ImVec4`.
-  assert node.kind == TomlKind.Table
+proc encodeHook*(a: array[53, ImVec4], v: var KdlNode, name: string) = 
+  v = initKNode(name)
+  v.children.setLen(a.len)
 
-  result = newImGuiStyle()
-
-  for name, field in result.fieldPairs:
-    if name != "colors" and name notin ignoreProps and name in node:
-      case node[name].kind
-      of TomlKind.Float, TomlKind.Int:
-        when field is float32:
-          if node[name].kind == TomlKind.Float:
-            result.setField(name, node[name].getFloat())
-          else:
-            result.setField(name, float32 node[name].getInt())
-        else:
-          raise newException(ValueError, "Got " & $node[name].kind & " for " & name & " expected " & $typeof(field))
-      of TomlKind.Array:
-        when field is ImVec2:
-          assert node[name].len == 2, name & "has to be of lenght 2"
-          result.setField(name, igVec2(node[name][0].getFloat(), node[name][1].getFloat()))
-        elif field is ImVec4:
-          assert node[name].len == 4, name & "has to be of lenght 4"
-          result.setField(name, igVec4(node[name][0].getFloat(), node[name][1].getFloat(), node[name][2].getFloat(), node[name][3].getFloat()))
-        else:
-          raise newException(ValueError, "Got " & $node[name].kind & " for " & name & " expected " & $typeof(field))
-      of TomlKind.String:
-        when field is ImGuiDir:
-          result.setField(name, parseEnum[ImGuiDir](node[name].getString()))
-        else:
-          raise newException(ValueError, "Got " & $node[name].kind & " for " & name & " expected " & $typeof(field))
-      of TomlKind.Bool:
-        when field is bool:
-          result.setField(name, node[name].getBool())
-        else:
-          raise newException(ValueError, "Got " & $node[name].kind & " for " & name & " expected " & $typeof(field))
+  for e, color in a:
+    let args = 
+      when defined(imstyleIntColors):
+        toKdlArgs(byte(color.x * 255), byte(color.y * 255), byte(color.z * 255), byte(color.w * 255))
       else:
-        raise newException(ValueError, "Got " & $node[name].kind & " for " & name & " expected " & $typeof(field))
+        toKdlArgs(color.x, color.y, color.z, color.w)
 
-  if "colors" in node:
-    for col in ImGuiCol:
-      if $col notin ignoreColors and $col in node["colors"]:
-        let colorNode = node["colors"][$col]
-        result.colors[ord col] = colorNode.colorProc()
+    let props = 
+      when defined(imstyleIntColors):
+        initTable[string, KdlVal]()
+      else:
+        toKdlProps({"float": true})
 
-proc styleFromToml*(path: string, ignoreProps: openArray[string] = defaultIgnoreProps, ignoreColors: openArray[string] = [], colorProc: proc(col: TomlValueRef): ImVec4 = colorToVec4): ImGuiStyle = 
-  ## Load `ImGuiStyle` from the toml file at `path`.
-  styleFromToml(Toml.loadFile(path, TomlValueRef), ignoreProps, ignoreColors, colorProc)
+    v.children[e] = initKNode($ImGuiCol(e), args = args, props = props)
 
-proc setStyleFromToml*(node: TomlValueRef, ignoreProps: openArray[string] = defaultIgnoreProps, ignoreColors: openArray[string] = [], colorProc: proc(col: TomlValueRef): ImVec4 = colorToVec4) =
-  let tomlStyle = node.styleFromToml(ignoreProps, ignoreColors, colorProc)
-  let style = igGetStyle()
-  for name, field in tomlStyle.fieldPairs:
-    if name notin ignoreProps:
-      style.setField(name, field)
+proc decodeHook*(a: KdlNode, v: var ImVec2) =
+  check a.args.len == 2
+  v = igVec2(a.args[0].get(float32), a.args[1].get(float32))
 
-proc setStyleFromToml*(path: string, ignoreProps: openArray[string] = defaultIgnoreProps, ignoreColors: openArray[string] = [], colorProc: proc(col: TomlValueRef): ImVec4 = colorToVec4) =
-  setStyleFromToml(Toml.loadFile(path, TomlValueRef), ignoreProps, ignoreColors, colorProc)
+proc decodeHook*(a: KdlNode, v: var array[53, ImVec4]) = 
+  for node in a.children:
+    let col = parseEnum[ImGuiCol](node.name)
 
+    if node.props.getOrDefault("float", false.initKVal).getBool(): # If "float" is true (if "float" doesn't exist default to false) decode as RGBA, each value being a float from 0 to 1
+      check node.args.len in 3..4
+      let alpha = 
+        if node.args.len == 4:
+          node.args[3].get(float32)
+        else: 1f
+
+      v[col.int] = igVec4(node.args[0].get(float32), node.args[1].get(float32), node.args[2].get(float32), alpha)
+    else: # Decode as RGBA, each value being an uint8 from 0 to 255
+      check node.args.len in 3..4
+      let alpha = 
+        if node.args.len == 4:
+          node.args[3].get(byte)
+        else: 255.byte
+
+      v[col.int] = igVec4(node.args[0].get(byte).float32 / 255, node.args[1].get(byte).float32 / 255, node.args[2].get(byte).float32 / 255, alpha.float32 / 255)
+
+proc loadStyle*(style: KdlNode or KdlDoc): ImGuiStyle = 
+  # Decodes an ImGuiStyle object from `style`
+  style.decode(result)
+
+proc setCurrent*(style: ImGuiStyle) = 
+  # Sets the current style to `style`
+  igGetStyle()[] = style
