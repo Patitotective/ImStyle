@@ -98,7 +98,7 @@ Fields of [`ImGuiStyle`](https://nimgl.dev/docs/imgui.html#ImGuiStyle):
 ## About
 - Docs: https://patitotective.github.io/ImStyle.
 - GitHub: https://github.com/Patitotective/ImStyle.
-- Discord: https://discord.gg/gdcPVjazCG.
+- Discord: https://discord.gg/U23ZQMsvwc.
 
 Contact me:
 - Discord: **Patitotective#0127**.
