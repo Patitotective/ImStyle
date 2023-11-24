@@ -60,14 +60,18 @@
   <details open>
     <summary><a class="reference reference-toplevel" href="#12" id="62">Procs</a></summary>
     <ul class="simple simple-toc-section">
-      <ul class="simple nested-toc-section">decodeHook
-  <li><a class="reference" href="#decodeHook%2CKdlNode%2Carray%5B%2CImVec4%5D" title="decodeHook(a: KdlNode; v: var array[53, ImVec4])">decodeHook(a: KdlNode; v: var array[53, ImVec4])</a></li>
-<li><a class="reference" href="#decodeHook%2CKdlNode%2CImVec2" title="decodeHook(a: KdlNode; v: var ImVec2)">decodeHook(a: KdlNode; v: var ImVec2)</a></li>
+      <ul class="simple nested-toc-section">decodeKdl
+  <li><a class="reference" href="#decodeKdl%2CKdlNode%2Carray%5B%2CImVec4%5D" title="decodeKdl(a: KdlNode; v: var array[53, ImVec4])">decodeKdl(a: KdlNode; v: var array[53, ImVec4])</a></li>
+<li><a class="reference" href="#decodeKdl%2CKdlNode%2CImVec2" title="decodeKdl(a: KdlNode; v: var ImVec2)">decodeKdl(a: KdlNode; v: var ImVec2)</a></li>
 
 </ul>
-<ul class="simple nested-toc-section">encodeHook
-  <li><a class="reference" href="#encodeHook%2Carray%5B%2CImVec4%5D%2CKdlNode%2Cstring" title="encodeHook(a: array[53, ImVec4]; v: var KdlNode; name: string)">encodeHook(a: array[53, ImVec4]; v: var KdlNode; name: string)</a></li>
-<li><a class="reference" href="#encodeHook%2CImVec2%2CKdlNode%2Cstring" title="encodeHook(a: ImVec2; v: var KdlNode; name: string)">encodeHook(a: ImVec2; v: var KdlNode; name: string)</a></li>
+<ul class="simple nested-toc-section">encodeKdl
+  <li><a class="reference" href="#encodeKdl%2Carray%5B%2CImVec4%5D%2CKdlNode%2Cstring" title="encodeKdl(a: array[53, ImVec4]; v: var KdlNode; name: string)">encodeKdl(a: array[53, ImVec4]; v: var KdlNode; name: string)</a></li>
+<li><a class="reference" href="#encodeKdl%2CImVec2%2CKdlNode%2Cstring" title="encodeKdl(a: ImVec2; v: var KdlNode; name: string)">encodeKdl(a: ImVec2; v: var KdlNode; name: string)</a></li>
+
+</ul>
+<ul class="simple nested-toc-section">initHookKdl
+  <li><a class="reference" href="#initHookKdl%2CImGuiStyle" title="initHookKdl(v: var ImGuiStyle)">initHookKdl(v: var ImGuiStyle)</a></li>
 
 </ul>
 <ul class="simple nested-toc-section">initImGuiStyle
@@ -76,10 +80,6 @@
 </ul>
 <ul class="simple nested-toc-section">loadStyle
   <li><a class="reference" href="#loadStyle" title="loadStyle(style: KdlNode or KdlDoc): ImGuiStyle">loadStyle(style: KdlNode or KdlDoc): ImGuiStyle</a></li>
-
-</ul>
-<ul class="simple nested-toc-section">newHook
-  <li><a class="reference" href="#newHook%2CImGuiStyle" title="newHook(v: var ImGuiStyle)">newHook(v: var ImGuiStyle)</a></li>
 
 </ul>
 <ul class="simple nested-toc-section">setCurrent
@@ -146,35 +146,36 @@ colors {
 <div class="section" id="12">
   <h1><a class="toc-backref" href="#12">Procs</a></h1>
   <dl class="item">
-    <div id="decodeHook-procs-all">
-  <div id="decodeHook,KdlNode,array[,ImVec4]">
-  <dt><pre><span class="Keyword">proc</span> <a href="#decodeHook%2CKdlNode%2Carray%5B%2CImVec4%5D"><span class="Identifier">decodeHook</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Identifier">KdlNode</span><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">array</span><span class="Other">[</span><span class="DecNumber">53</span><span class="Other">,</span> <span class="Identifier">ImVec4</span><span class="Other">]</span><span class="Other">)</span> {.
-    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">KdlError</span><span class="Other">,</span> <span class="Identifier">ImStyleError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+    <div id="decodeKdl-procs-all">
+  <div id="decodeKdl,KdlNode,array[,ImVec4]">
+  <dt><pre><span class="Keyword">proc</span> <a href="#decodeKdl%2CKdlNode%2Carray%5B%2CImVec4%5D"><span class="Identifier">decodeKdl</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Identifier">KdlNode</span><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">array</span><span class="Other">[</span><span class="DecNumber">53</span><span class="Other">,</span> <span class="Identifier">ImVec4</span><span class="Other">]</span><span class="Other">)</span> {.
+    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">KdlError</span><span class="Other">,</span> <span class="Identifier">KeyError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">ImStyleError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L149" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L149" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L146" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L146" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
-<div id="decodeHook,KdlNode,ImVec2">
-  <dt><pre><span class="Keyword">proc</span> <a href="#decodeHook%2CKdlNode%2CImVec2"><span class="Identifier">decodeHook</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Identifier">KdlNode</span><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">ImVec2</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ImStyleError</span><span class="Other">,</span> <span class="Identifier">KdlError</span><span class="Other">]</span><span class="Other">,</span>
+<div id="decodeKdl,KdlNode,ImVec2">
+  <dt><pre><span class="Keyword">proc</span> <a href="#decodeKdl%2CKdlNode%2CImVec2"><span class="Identifier">decodeKdl</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Identifier">KdlNode</span><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">ImVec2</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ImStyleError</span><span class="Other">,</span> <span class="Identifier">KdlError</span><span class="Other">]</span><span class="Other">,</span>
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L145" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L145" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L142" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L142" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
 
 </div>
-<div id="encodeHook-procs-all">
-  <div id="encodeHook,array[,ImVec4],KdlNode,string">
-  <dt><pre><span class="Keyword">proc</span> <a href="#encodeHook%2Carray%5B%2CImVec4%5D%2CKdlNode%2Cstring"><span class="Identifier">encodeHook</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Identifier">array</span><span class="Other">[</span><span class="DecNumber">53</span><span class="Other">,</span> <span class="Identifier">ImVec4</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">KdlNode</span><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> {.
-    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<div id="encodeKdl-procs-all">
+  <div id="encodeKdl,array[,ImVec4],KdlNode,string">
+  <dt><pre><span class="Keyword">proc</span> <a href="#encodeKdl%2Carray%5B%2CImVec4%5D%2CKdlNode%2Cstring"><span class="Identifier">encodeKdl</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Identifier">array</span><span class="Other">[</span><span class="DecNumber">53</span><span class="Other">,</span> <span class="Identifier">ImVec4</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">KdlNode</span><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
     
@@ -183,14 +184,27 @@ colors {
 
   </dd>
 </div>
-<div id="encodeHook,ImVec2,KdlNode,string">
-  <dt><pre><span class="Keyword">proc</span> <a href="#encodeHook%2CImVec2%2CKdlNode%2Cstring"><span class="Identifier">encodeHook</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Identifier">ImVec2</span><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">KdlNode</span><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
+<div id="encodeKdl,ImVec2,KdlNode,string">
+  <dt><pre><span class="Keyword">proc</span> <a href="#encodeKdl%2CImVec2%2CKdlNode%2Cstring"><span class="Identifier">encodeKdl</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">:</span> <span class="Identifier">ImVec2</span><span class="Other">;</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">KdlNode</span><span class="Other">;</span> <span class="Identifier">name</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
     <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
     
     <a href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L123" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L123" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+
+  </dd>
+</div>
+
+</div>
+<div id="initHookKdl-procs-all">
+  <div id="initHookKdl,ImGuiStyle">
+  <dt><pre><span class="Keyword">proc</span> <a href="#initHookKdl%2CImGuiStyle"><span class="Identifier">initHookKdl</span></a><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">ImGuiStyle</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <dd>
+    
+    
+    <a href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L120" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L120" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -222,19 +236,6 @@ colors {
 </div>
 
 </div>
-<div id="newHook-procs-all">
-  <div id="newHook,ImGuiStyle">
-  <dt><pre><span class="Keyword">proc</span> <a href="#newHook%2CImGuiStyle"><span class="Identifier">newHook</span></a><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">ImGuiStyle</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-  <dd>
-    
-    
-    <a href="https://github.com/Patitotective/ImStyle/tree/main/imstyle.nim#L120" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/Patitotective/ImStyle/edit/devel/imstyle.nim#L120" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
-
-  </dd>
-</div>
-
-</div>
 <div id="setCurrent-procs-all">
   <div id="setCurrent,ImGuiStyle">
   <dt><pre><span class="Keyword">proc</span> <a href="#setCurrent%2CImGuiStyle"><span class="Identifier">setCurrent</span></a><span class="Other">(</span><span class="Identifier">style</span><span class="Other">:</span> <span class="Identifier">ImGuiStyle</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
@@ -258,7 +259,7 @@ colors {
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-10-23 23:03:41 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-11-24 02:09:55 UTC</small>
       </div>
     </div>
   </div>

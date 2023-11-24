@@ -22,21 +22,25 @@
     <div class="container">
       <h1 class="title">Index</h1>
       Modules: <a href="imstyle.html">imstyle</a>.<br/><p /><h2>API symbols</h2>
-<dl><dt><a name="decodeHook" href="#decodeHook"><span>decodeHook:</span></a></dt><dd><ul class="simple">
+<dl><dt><a name="decodeKdl" href="#decodeKdl"><span>decodeKdl:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="imstyle: proc decodeHook(a: KdlNode; v: var array[53, ImVec4])" href="imstyle.html#decodeHook%2CKdlNode%2Carray%5B%2CImVec4%5D">imstyle: proc decodeHook(a: KdlNode; v: var array[53, ImVec4])</a></li>
+          data-doc-search-tag="imstyle: proc decodeKdl(a: KdlNode; v: var array[53, ImVec4])" href="imstyle.html#decodeKdl%2CKdlNode%2Carray%5B%2CImVec4%5D">imstyle: proc decodeKdl(a: KdlNode; v: var array[53, ImVec4])</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="imstyle: proc decodeHook(a: KdlNode; v: var ImVec2)" href="imstyle.html#decodeHook%2CKdlNode%2CImVec2">imstyle: proc decodeHook(a: KdlNode; v: var ImVec2)</a></li>
+          data-doc-search-tag="imstyle: proc decodeKdl(a: KdlNode; v: var ImVec2)" href="imstyle.html#decodeKdl%2CKdlNode%2CImVec2">imstyle: proc decodeKdl(a: KdlNode; v: var ImVec2)</a></li>
           </ul></dd>
-<dt><a name="encodeHook" href="#encodeHook"><span>encodeHook:</span></a></dt><dd><ul class="simple">
+<dt><a name="encodeKdl" href="#encodeKdl"><span>encodeKdl:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="imstyle: proc encodeHook(a: array[53, ImVec4]; v: var KdlNode; name: string)" href="imstyle.html#encodeHook%2Carray%5B%2CImVec4%5D%2CKdlNode%2Cstring">imstyle: proc encodeHook(a: array[53, ImVec4]; v: var KdlNode; name: string)</a></li>
+          data-doc-search-tag="imstyle: proc encodeKdl(a: array[53, ImVec4]; v: var KdlNode; name: string)" href="imstyle.html#encodeKdl%2Carray%5B%2CImVec4%5D%2CKdlNode%2Cstring">imstyle: proc encodeKdl(a: array[53, ImVec4]; v: var KdlNode; name: string)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="imstyle: proc encodeHook(a: ImVec2; v: var KdlNode; name: string)" href="imstyle.html#encodeHook%2CImVec2%2CKdlNode%2Cstring">imstyle: proc encodeHook(a: ImVec2; v: var KdlNode; name: string)</a></li>
+          data-doc-search-tag="imstyle: proc encodeKdl(a: ImVec2; v: var KdlNode; name: string)" href="imstyle.html#encodeKdl%2CImVec2%2CKdlNode%2Cstring">imstyle: proc encodeKdl(a: ImVec2; v: var KdlNode; name: string)</a></li>
           </ul></dd>
 <dt><a name="ImStyleError" href="#ImStyleError"><span>ImStyleError:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="imstyle: object ImStyleError" href="imstyle.html#ImStyleError">imstyle: object ImStyleError</a></li>
+          </ul></dd>
+<dt><a name="initHookKdl" href="#initHookKdl"><span>initHookKdl:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="imstyle: proc initHookKdl(v: var ImGuiStyle)" href="imstyle.html#initHookKdl%2CImGuiStyle">imstyle: proc initHookKdl(v: var ImGuiStyle)</a></li>
           </ul></dd>
 <dt><a name="initImGuiStyle" href="#initImGuiStyle"><span>initImGuiStyle:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -46,10 +50,6 @@
 <li><a class="reference external"
           data-doc-search-tag="imstyle: proc loadStyle(style: KdlNode or KdlDoc): ImGuiStyle" href="imstyle.html#loadStyle">imstyle: proc loadStyle(style: KdlNode or KdlDoc): ImGuiStyle</a></li>
           </ul></dd>
-<dt><a name="newHook" href="#newHook"><span>newHook:</span></a></dt><dd><ul class="simple">
-<li><a class="reference external"
-          data-doc-search-tag="imstyle: proc newHook(v: var ImGuiStyle)" href="imstyle.html#newHook%2CImGuiStyle">imstyle: proc newHook(v: var ImGuiStyle)</a></li>
-          </ul></dd>
 <dt><a name="setCurrent" href="#setCurrent"><span>setCurrent:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="imstyle: proc setCurrent(style: ImGuiStyle)" href="imstyle.html#setCurrent%2CImGuiStyle">imstyle: proc setCurrent(style: ImGuiStyle)</a></li>
@@ -58,7 +58,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-10-23 23:03:41 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-11-24 02:09:55 UTC</small>
       </div>
     </div>
   </div>
