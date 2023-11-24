@@ -1,7 +1,7 @@
-## ImStyle is a library that helps you to manage your Dear ImGui application's style.  
-## Load the style from a TOML file rather than hard-coding it into your app.  
+## ImStyle is a library that helps you to manage your Dear ImGui application's style.
+## Load the style from a TOML file rather than hard-coding it into your app.
 ## Using ImStyle also allows you to change your app's style without compiling it again (since the style is read from a file).
-## 
+##
 ## Without ImStyle you need to set the style in your code:
 ## ```nim
 ## import nimgl/imgui
@@ -17,7 +17,7 @@
 ## ```kdl
 ## # ImStyle
 ## alpha 1 # -> 1.0
-## windowPadding 4 4 # -> ImVec2(x: 4.0, y: 4.0) 
+## windowPadding 4 4 # -> ImVec2(x: 4.0, y: 4.0)
 ## windowMenuButtonPosition "Left" # ImGuiDir.Left
 ## ...
 ## colors {
@@ -61,10 +61,10 @@ type
   #   customProps*: Table[string, Prop]
   #   customColors*: Table[string, ImVec4]
 
-template fail(msg: string) = 
+template fail(msg: string) =
   raise newException(ImStyleError, msg)
 
-template check(cond: untyped, msg = "") = 
+template check(cond: untyped, msg = "") =
   if not cond:
     let txt = msg
     fail astToStr(cond) & " failed" & (if txt.len > 0: ": " & txt else: "")
@@ -73,7 +73,7 @@ proc igVec2(x, y: float32): ImVec2 = ImVec2(x: x, y: y)
 
 proc igVec4(x, y, z, w: float32): ImVec4 = ImVec4(x: x, y: y, z: z, w: w)
 
-proc initImGuiStyle*(): ImGuiStyle = 
+proc initImGuiStyle*(): ImGuiStyle =
   result.alpha = 1.0f # Global alpha applies to everything in Dear ImGui.
   result.disabledAlpha = 0.60f # Additional alpha multiplier applied by BeginDisabled(). Multiply over current value of Alpha.
   result.windowPadding = igVec2(8, 8) # Padding within a window
@@ -117,60 +117,60 @@ proc initImGuiStyle*(): ImGuiStyle =
 
   igStyleColorsDark(result.addr)
 
-proc newHook*(v: var ImGuiStyle) = 
+proc initHookKdl*(v: var ImGuiStyle) =
   v = initImGuiStyle()
 
-proc encodeHook*(a: ImVec2, v: var KdlNode, name: string) = 
+proc encodeKdl*(a: ImVec2, v: var KdlNode, name: string) =
   v = initKNode(name, args = toKdlArgs(a.x, a.y))
 
-proc encodeHook*(a: array[53, ImVec4], v: var KdlNode, name: string) = 
+proc encodeKdl*(a: array[53, ImVec4], v: var KdlNode, name: string) =
   v = initKNode(name)
   v.children.setLen(a.len)
 
+  when not defined(imstyleIntColors):
+    v.props["float"] = initKBool(true)
+
   for e, color in a:
-    let args = 
+    let args =
       when defined(imstyleIntColors):
         toKdlArgs(byte(color.x * 255), byte(color.y * 255), byte(color.z * 255), byte(color.w * 255))
       else:
         toKdlArgs(color.x, color.y, color.z, color.w)
 
-    let props = 
-      when defined(imstyleIntColors):
-        initTable[string, KdlVal]()
-      else:
-        toKdlProps({"float": true})
+    v.children[e] = initKNode($ImGuiCol(e), args = args)
 
-    v.children[e] = initKNode($ImGuiCol(e), args = args, props = props)
-
-proc decodeHook*(a: KdlNode, v: var ImVec2) =
+proc decodeKdl*(a: KdlNode, v: var ImVec2) =
   check a.args.len == 2
   v = igVec2(a.args[0].get(float32), a.args[1].get(float32))
 
-proc decodeHook*(a: KdlNode, v: var array[53, ImVec4]) = 
+proc decodeKdl*(a: KdlNode, v: var array[53, ImVec4]) =
+  let colorsAreFloat = "float" in a.props and a.props["float"].getBool()
+
   for node in a.children:
     let col = parseEnum[ImGuiCol](node.name)
 
-    if node.props.getOrDefault("float", false.initKVal).getBool(): # If "float" is true (if "float" doesn't exist default to false) decode as RGBA, each value being a float from 0 to 1
-      check node.args.len in 3..4
-      let alpha = 
+    check node.args.len in 3..4, "Expected 3 to 4 arguments (RGB/RGBA)"
+    check "float" notin node.props, "float property deprecated in v3, put it in the colors node"
+
+    if colorsAreFloat:
+      let alpha =
         if node.args.len == 4:
           node.args[3].get(float32)
         else: 1f
 
       v[col.int] = igVec4(node.args[0].get(float32), node.args[1].get(float32), node.args[2].get(float32), alpha)
-    else: # Decode as RGBA, each value being an uint8 from 0 to 255
-      check node.args.len in 3..4
-      let alpha = 
+    else:
+      let alpha =
         if node.args.len == 4:
           node.args[3].get(byte)
         else: 255.byte
 
       v[col.int] = igVec4(node.args[0].get(byte).float32 / 255, node.args[1].get(byte).float32 / 255, node.args[2].get(byte).float32 / 255, alpha.float32 / 255)
 
-proc loadStyle*(style: KdlNode or KdlDoc): ImGuiStyle = 
+proc loadStyle*(style: KdlNode or KdlDoc): ImGuiStyle =
   # Decodes an ImGuiStyle object from `style`
-  style.decode(result)
+  style.decodeKdl(result)
 
-proc setCurrent*(style: ImGuiStyle) = 
-  # Sets the current style to `style`
+proc setCurrent*(style: ImGuiStyle) =
+  # Sets the current ImGui style to `style`
   igGetStyle()[] = style

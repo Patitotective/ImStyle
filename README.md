@@ -1,5 +1,5 @@
 # ImStyle
-A nice way to manage your ImGui application's style.
+A simple way to manage your ImGui application's style.
 
 ## Installation
 ```
@@ -18,15 +18,15 @@ style.windowMenuButtonPosition = ImGuiDir.Left
 style.colors[ord ImGuiCol.Text] = ImVec4(x: 0f, y: 0f, z: 0f, w: 1f) # RGBA
 ...
 ```
-But with _ImStyle_ you wil just create a `style.kdl`:
+But with _ImStyle_ you can store your style in `style.kdl`:
 ```kdl
 # ImStyle
 alpha 1 # -> 1.0
-windowPadding 4 4 # -> ImVec2(x: 4.0, y: 4.0) 
+windowPadding 4 4 # -> ImVec2(x: 4.0, y: 4.0)
 windowMenuButtonPosition "Left" # ImGuiDir.Left
 ...
 colors {
-  Text 0 0 0 1 # -> ImVec4(x: 0f, y: 0f, z: 0f, w: 1f)
+  Text 255 130 0 1 # -> ImVec4(x: 255f, y: 130f, z: 0f, w: 1f)
   ...
 }
 ```
@@ -38,12 +38,20 @@ import imstyle
 parseKdlFile("style.kdl").loadStyle().setCurrent()
 ...
 ```
-With _ImStyle_ it's way more clear and **you don't need to compile your application again each time you change its style**. 
+With _ImStyle_ it's way more clear and **you don't need to compile your application again each time you change its style**.
+---
+ImStyle uses [kdl-nim](https://github.com/Patitotective/kdl-nim) to store the style file, since `kdl-nim` provides serialization to/from Nim objects, converting an ImGuiStyle object to KDL is a trivial thing:
+```nim
+import imstyle
+...
+writeFile("mystyle.kdl", igGetStyle().encodeKdlDoc().pretty())
+...
+```
 
 Read more at the [docs](https://patitotective.github.io/ImStyle).
 
 ## Styles
-For style examples look at [styles/](https://github.com/Patitotective/ImStyle/tree/main/styles).  
+For style examples look at [styles/](https://github.com/Patitotective/ImStyle/tree/main/styles).
 Or at [ImThemes](https://github.com/Patitotective/ImThemes), a theme manager and editor that supports ImStyle!
 
 ## Fields Description
@@ -98,7 +106,7 @@ Fields of [`ImGuiStyle`](https://nimgl.dev/docs/imgui.html#ImGuiStyle):
 ## About
 - Docs: https://patitotective.github.io/ImStyle.
 - GitHub: https://github.com/Patitotective/ImStyle.
-- Discord: https://discord.gg/gdcPVjazCG.
+- Discord: https://discord.gg/U23ZQMsvwc.
 
 Contact me:
 - Discord: **Patitotective#0127**.

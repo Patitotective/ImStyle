@@ -1,6 +1,6 @@
 # Package
 
-version       = "2.0.0"
+version       = "3.0.0"
 author        = "Patitotective"
 description   = "A nice way to manage your Dear ImGui application style"
 license       = "MIT"
@@ -8,7 +8,7 @@ license       = "MIT"
 # Dependencies
 
 requires "nim >= 1.6.8"
-requires "kdl >= 1.0.0"
+requires "kdl >= 2.0.0"
 requires "nimgl >= 1.3.2"
 
 task docs, "Generate documentation":

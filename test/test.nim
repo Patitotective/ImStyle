@@ -5,4 +5,4 @@ import imstyle
 import nimgl/imgui
 
 test "can load style":
-  check initImGuiStyle().encode().decode(ImGuiStyle) == initImGuiStyle()
+  check initImGuiStyle().encodeKdlDoc().decodeKdl(ImGuiStyle) == initImGuiStyle()
