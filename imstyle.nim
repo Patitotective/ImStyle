@@ -1,5 +1,5 @@
 ## ImStyle is a library that helps you to manage your Dear ImGui application's style.
-## Load the style from a TOML file rather than hard-coding it into your app.
+## Load the style from a KDL file rather than hard-coding it into your app.
 ## Using ImStyle also allows you to change your app's style without compiling it again (since the style is read from a file).
 ##
 ## Without ImStyle you need to set the style in your code:
